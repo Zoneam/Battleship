@@ -99,7 +99,8 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
                 persistNumber++
         }
         console.log("horizontalShipArray", horizontalShipArray)
-        randomLocation = horizontalShipArray[Math.floor(Math.random() * (100 - (shipSize * 10)))]; // -1 ??
+        randomLocation = horizontalShipArray[Math.floor(Math.random() * (100 - ((shipSize - 1) * 10)))]; // -1 ??
+        console.log("randomLocation",randomLocation)
         for (let i = 0; i < shipSize; i++){
             generatedShip.push(randomLocation + i * 10);
         }
@@ -117,7 +118,7 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
             }
         }
         console.log("horizontalShipArray", horizontalShipArray)
-        randomLocation = horizontalShipArray[Math.floor(Math.random() * (100 - (shipSize * 10)))]; // -1 ??
+        randomLocation = horizontalShipArray[Math.floor(Math.random() * (110 - (shipSize * 10)))]; // -1 ??
         for (let i = 0; i < shipSize; i++){
             generatedShip.push(randomLocation + i);
         }
