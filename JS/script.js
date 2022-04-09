@@ -51,8 +51,6 @@ function generateShips(){
             console.log("first position:" , firstPosition[0])
         } else {
                 
-           
-            console.log(" DOOOOOOOOOOOO")
                 // ship array comes back from our ship generator
             randomLocation = generateShipAndPosition(shipSizes[i], isHorizontal);
             containsTiles = randomLocation.some(position => {
