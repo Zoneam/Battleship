@@ -10,10 +10,18 @@
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
     <script defer src="./JS/script.js"></script>
+    <link rel="stylesheet" href="./CSS/extra.css">
     <link rel="stylesheet" href="./CSS/style.css">
 </head>
 
-<body>
+<body>    
+    <nav>
+
+        <button id="start" >Start The Game</button>
+        <button id="restart" >RESTART</button>
+        <button id="generate-ships-for-user" >Generate My Ships</button>
+    </nav>
+
     <div id="both-games-wrapper">
         <div id="board-wrapper">
             <table id="user-game-table">
@@ -23,8 +31,9 @@
         <div id="ai-board-wrapper">
             <table id="ai-game-table">
             </table>
-        </div>
+        </div>    
+
     </div>
-    <button id="start" >Play Again</button>
+
 </body>
 </html>

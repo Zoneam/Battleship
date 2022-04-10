@@ -1,35 +1,60 @@
 const userGameTable = $('#user-game-table');
 const aiGameTable = $('#ai-game-table');
-const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
-console.log(emptyGameArray);
-
-function generateGameBoard(player) {
-    for(let i = 0; i < 10; i++) {
-        $(`#${player}-game-table`).append(`<tr class='' id="${player + '-' + 'row' + '-' + (i * 10)}"></tr>`);
-        for(let j = 0; j < 10; j++) {
-            $("tr").last().append(`<th class='tg-0lax' id="${player + '-' + (i * 10 + j)}"></th>`);
-        };
-    };
-};
-generateGameBoard('user');
-generateGameBoard('ai');
-
-// Attach click event listeners
-$("#start").one("click", function(){
-    userGameTable.on('click', 'th', function() {
-        console.log("User tile# " + $(this).attr('id'));
-        $(this).css('background-color','green');
-    });
-
-    aiGameTable.on('click', 'th', function() {
-        console.log("Ai tile# " + $(this).attr('id'));
-        $(this).css('background-color','red');
-    });
+const generateShipsForUserButton = $('#generate-ships-for-user');
+const restart = $('#restart');
+// const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
+restart.on('click', function () {
+    gameStart()
 })
 
-//----------------------------------------------------------------
+// Game Start
+function gameStart() {
+
+
+
+    drawGameBoard('user');
+    drawGameBoard('ai');
+    generateShips('ai');
+    attachClickListenerUserGenerate();
+}
+
+const attachClickListenerUserGenerate = () => {
+    generateShipsForUserButton.one('click', function () {
+        generateShips('user');
+    });
+};
+
+function drawGameBoard(player) {
+    let gameBoard = '';
+    let gameTable = $(`#${player}-game-table`);
+    for (let i = 0; i < 10; i++) {
+        gameBoard += `<tr class='' id="${player + '-' + 'row' + '-' + (i * 10)}"></tr>`;
+        for(let j = 0; j < 10; j++) {
+            gameBoard += `<th class='tg-0lax ripple' id="${player + '-' + (i * 10 + j)}"></th>`;
+        };
+    };
+    gameTable.html(gameBoard)
+};
+
+
+// Attach click event listeners
+$("#start").one("click", function () {
+    userGameTable.on('click', 'th', handleUserBoardClick);
+    aiGameTable.on('click', 'th', handleAiBoardClick)
+});
+
+function handleUserBoardClick(e) {
+    console.log("User tile# " + $(this).attr('id'));
+    $(this).css('background-color','green');
+};
+    
+function handleAiBoardClick() {
+        console.log("Ai tile# " + $(this).attr('id'));
+        $(this).css('background-color','black');
+};
+
 // generating battleships
-function generateShips(){
+function generateShips(player){
     const arrayOfShips = [];
     const shipSizes = [1, 2, 2, 3, 4, 5];
     let randomLocation = null;
@@ -69,20 +94,14 @@ function generateShips(){
         }
         arrayOfShips.push(ship);
     }
-    colorizeShips(occupiedPositions);
+    colorizeShips(occupiedPositions,player);
     console.log("arrayOfShips",arrayOfShips);
     // console.log("occupiedPositions: ",occupiedPositions)
-}
-
-const colorizeShips = (occupiedPositions) => {
-    occupiedPositions.forEach((ship, i) => {
-            $(`#ai-${occupiedPositions[i]}`).css('background-color', 'red');
-    })
-}
+};
 
 // To Generate random ships
 const generateShipAndPosition = (shipSize, isHorizontal) => {
-    console.log("isHorizontal: ",isHorizontal)
+    console.log("isHorizontal: ", isHorizontal)
     let generatedShip = [];
     let horizontalShipArray = [];
     let verticalShipArray = [];
@@ -91,13 +110,13 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
     console.log("--generating--")
     // if generating vertical ships
     if (!isHorizontal) {
-        for (let i = 0; i < 100 - ((shipSize-1) * 10) ; i++) {
-                // adding all numbers except ship size that will hit bottom wall
-                horizontalShipArray.push((persistNumber));
-                persistNumber++
+        for (let i = 0; i < 100 - ((shipSize - 1) * 10); i++) {
+            // adding all numbers except ship size that will hit bottom wall
+            horizontalShipArray.push((persistNumber));
+            persistNumber++
         }
         randomLocation = horizontalShipArray[Math.floor(Math.random() * (100 - ((shipSize - 1) * 10)))]; // -1 ??
-        for (let i = 0; i < shipSize; i++){
+        for (let i = 0; i < shipSize; i++) {
             generatedShip.push(randomLocation + i * 10);
         }
         return generatedShip;
@@ -114,12 +133,17 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
             }
         }
         randomLocation = horizontalShipArray[Math.floor(Math.random() * (110 - (shipSize * 10)))]; // -1 ??
-        for (let i = 0; i < shipSize; i++){
+        for (let i = 0; i < shipSize; i++) {
             generatedShip.push(randomLocation + i);
         }
         return generatedShip;
     }
-}
-
-
-generateShips()
+};
+// Colorize oponent ships
+const colorizeShips = (occupiedPositions,player) => {
+    occupiedPositions.forEach((ship, i) => {
+        $(`#${player}-${occupiedPositions[i]}`).css('background-color', 'red');
+    })
+};
+// Game Init
+gameStart()
