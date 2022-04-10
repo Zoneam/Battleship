@@ -34,44 +34,44 @@ function generateShips(){
     const shipSizes = [1, 2, 2, 3, 4, 5];
     let randomLocation = null;
     let occupiedPositions = [];
-    let foundShip = false;
     let ship = [];
     let isHorizontal;
-    let containsTiles = false;
+    let containsTiles;
+    let firstPosition;
     for (let i = 0; i < shipSizes.length; i++) {
-        console.log("-----------------------------------------")
         console.log("inside Loop:i=", i)
         isHorizontal = Math.random() < 0.5;
         ship = [];
         // first 1X1 square placement
         if (i === 0) {
-            let firstPosition = generateShipAndPosition(shipSizes[0], false); // 100 is board array length
+            firstPosition = generateShipAndPosition(shipSizes[0], false); // 100 is board array length
             ship.push(firstPosition);
             occupiedPositions.push(firstPosition[0]);
             console.log("first position:" , firstPosition[0])
         } else {
-                
-                // ship array comes back from our ship generator
             randomLocation = generateShipAndPosition(shipSizes[i], isHorizontal);
             containsTiles = randomLocation.some(position => {
                 return occupiedPositions.includes(position);
             });
-                console.log("randomLocation:   ",randomLocation)
-                console.log("containsTiles: ", containsTiles)
-            if (!containsTiles) {
-                    //function to find if can place not overlaping
+            //function to find if can place not overlaping
+            while (containsTiles) {
+                randomLocation = generateShipAndPosition(shipSizes[i], isHorizontal);
+                containsTiles = randomLocation.some(position => {
+                    return occupiedPositions.includes(position);
+                });
+            }
                 occupiedPositions = occupiedPositions.concat(randomLocation)
                 ship.push(randomLocation);
-            }
-
-
-
+                console.log("occupiedPositions length", occupiedPositions.length)
+                console.log("occupiedPositions: ",occupiedPositions)
+                console.log("randomLocation:   ", randomLocation)
+                console.log("containsTiles: ", containsTiles)
         }
         arrayOfShips.push(ship);
     }
     colorizeShips(occupiedPositions);
     console.log("arrayOfShips",arrayOfShips);
-    console.log("occupiedPositions: ",occupiedPositions)
+    // console.log("occupiedPositions: ",occupiedPositions)
 }
 
 const colorizeShips = (occupiedPositions) => {
@@ -80,7 +80,7 @@ const colorizeShips = (occupiedPositions) => {
     })
 }
 
-
+// To Generate random ships
 const generateShipAndPosition = (shipSize, isHorizontal) => {
     console.log("isHorizontal: ",isHorizontal)
     let generatedShip = [];
@@ -88,25 +88,21 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
     let verticalShipArray = [];
     let persistNumber = 0;
     let randomLocation = 0;
-    console.log("Ship SZ:", shipSize)
-    console.log("-----------generating--------------")
-    // generating horizontal ships
+    console.log("--generating--")
+    // if generating vertical ships
     if (!isHorizontal) {
-        console.log("verticalShipArray", verticalShipArray)
         for (let i = 0; i < 100 - ((shipSize-1) * 10) ; i++) {
                 // adding all numbers except ship size that will hit bottom wall
                 horizontalShipArray.push((persistNumber));
                 persistNumber++
         }
-        console.log("horizontalShipArray", horizontalShipArray)
         randomLocation = horizontalShipArray[Math.floor(Math.random() * (100 - ((shipSize - 1) * 10)))]; // -1 ??
-        console.log("randomLocation",randomLocation)
         for (let i = 0; i < shipSize; i++){
             generatedShip.push(randomLocation + i * 10);
         }
         return generatedShip;
     }
-
+    // if generating horizontal ships
     if (isHorizontal) {
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
@@ -117,7 +113,6 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
                 persistNumber++
             }
         }
-        console.log("horizontalShipArray", horizontalShipArray)
         randomLocation = horizontalShipArray[Math.floor(Math.random() * (110 - (shipSize * 10)))]; // -1 ??
         for (let i = 0; i < shipSize; i++){
             generatedShip.push(randomLocation + i);
