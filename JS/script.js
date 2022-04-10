@@ -81,37 +81,28 @@ function generateShips(player){
             });
             //function to find if can place not overlaping
             while ((touchingOthers === true) || (containsTiles === true)) {
-                console.log("00000000000000000000000000000000000000000000")
                 suroundCheckArray = [];
                 randomLocation = generateShipAndPosition(shipSizes[i], isHorizontal);
                 
                 containsTiles = occupiedPositions.some(position => {
                     return randomLocation.includes(position);
                 });
-                console.log("randomLocation", randomLocation)
-                console.log("occupiedPositions: ", occupiedPositions)
-                console.log("containsTiles", containsTiles)
                 
                 randomLocation.forEach(el => {
                     suroundCheckArray.push(el + 1, el - 1, el + 10, el - 10)
                 });
-
-                console.log("suroundCheckArray", suroundCheckArray)
-                
-                console.log("----------ForEach----------- ")
                
-                touchingOthers = suroundCheckArray.some(el => {
-                    return occupiedPositions.includes(el);
+                touchingOthers = occupiedPositions.some(el => {
+                    return suroundCheckArray.includes(el);
                 })
-        
-                console.log("touchingOthers0000000000000000",touchingOthers)
             };
-                occupiedPositions = occupiedPositions.concat(randomLocation)
-                ship.push(randomLocation);
-            //     console.log("occupiedPositions length", occupiedPositions.length)
-            //     // console.log("occupiedPositions: ",occupiedPositions)
-            //     console.log("randomLocation:   ", randomLocation)
-            // console.log("containsTiles: ", containsTiles)
+            occupiedPositions = occupiedPositions.concat(randomLocation)
+            ship.push(randomLocation);
+
+            console.log("occupiedPositions length", occupiedPositions.length)
+            console.log("occupiedPositions: ",occupiedPositions)
+            console.log("randomLocation:   ", randomLocation)
+            console.log("containsTiles: ", containsTiles)
             
         }; 
         arrayOfShips.push(ship);
