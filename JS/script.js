@@ -1,27 +1,37 @@
 const userGameTable = $('#user-game-table');
 const aiGameTable = $('#ai-game-table');
 const generateShipsForUserButton = $('#generate-ships-for-user');
-const restart = $('#restart');
+const restart = $('#restart').on('click', gameStart)
+const shipSizes = [1, 2, 2, 3, 4, 5];
+let moreHorizontalOrVertical = 0.5;
 // const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
-restart.on('click', function () {
-    gameStart()
-})
 
 // Game Start
 function gameStart() {
-
-
-
     drawGameBoard('user');
     drawGameBoard('ai');
     generateShips('ai');
-    attachClickListenerUserGenerate();
-}
+};
 
-const attachClickListenerUserGenerate = () => {
-    generateShipsForUserButton.one('click', function () {
+
+generateShipsForUserButton.on('click', function () {
         generateShips('user');
-    });
+});
+
+// Attach click event listeners
+$("#start").one("click", function () {
+    userGameTable.on('click', 'th', handleUserBoardClick);
+    aiGameTable.on('click', 'th', handleAiBoardClick)
+});
+
+function handleUserBoardClick() {
+    console.log("User tile# " + $(this).attr('id'));
+    $(this).css('background-color','green');
+};
+    
+function handleAiBoardClick() {
+        console.log("Ai tile# " + $(this).attr('id'));
+        $(this).css('background-color','black');
 };
 
 function drawGameBoard(player) {
@@ -35,28 +45,9 @@ function drawGameBoard(player) {
     };
     gameTable.html(gameBoard)
 };
-
-
-// Attach click event listeners
-$("#start").one("click", function () {
-    userGameTable.on('click', 'th', handleUserBoardClick);
-    aiGameTable.on('click', 'th', handleAiBoardClick)
-});
-
-function handleUserBoardClick(e) {
-    console.log("User tile# " + $(this).attr('id'));
-    $(this).css('background-color','green');
-};
-    
-function handleAiBoardClick() {
-        console.log("Ai tile# " + $(this).attr('id'));
-        $(this).css('background-color','black');
-};
-
 // generating battleships
 function generateShips(player){
     const arrayOfShips = [];
-    const shipSizes = [1, 2, 2, 3, 4, 5];
     let randomLocation = null;
     let occupiedPositions = [];
     let ship = [];
@@ -65,7 +56,7 @@ function generateShips(player){
     let firstPosition;
     for (let i = 0; i < shipSizes.length; i++) {
         console.log("inside Loop:i=", i)
-        isHorizontal = Math.random() < 0.5;
+        isHorizontal = Math.random() <= moreHorizontalOrVertical;
         ship = [];
         // first 1X1 square placement
         if (i === 0) {
@@ -96,7 +87,7 @@ function generateShips(player){
     }
     colorizeShips(occupiedPositions,player);
     console.log("arrayOfShips",arrayOfShips);
-    // console.log("occupiedPositions: ",occupiedPositions)
+    console.log("occupiedPositions: ",occupiedPositions)
 };
 
 // To Generate random ships
@@ -140,7 +131,7 @@ const generateShipAndPosition = (shipSize, isHorizontal) => {
     }
 };
 // Colorize oponent ships
-const colorizeShips = (occupiedPositions,player) => {
+const colorizeShips = (occupiedPositions, player) => {
     occupiedPositions.forEach((ship, i) => {
         $(`#${player}-${occupiedPositions[i]}`).css('background-color', 'red');
     })
