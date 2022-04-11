@@ -1,33 +1,37 @@
 const userGameTable = $("#user-game-table");
 const aiGameTable = $("#ai-game-table");
-const generateShipsForUserButton = $("#generate-ships-for-user");
-const restart = $("#restart").on("click", gameStart);
+const restart = $("#restart").on("click", gameStartRestart);
 const shipSizes = [1, 2, 2, 3, 4, 5];
+const startButton = $("#start");
 let horizontalOrVertical;
 // const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
 
 // Game Init / restart
-function gameStart() {
-  generateShipsForUserButton.prop("disabled", false);
-  $("#start").prop("disabled", true);
-  horizontalOrVertical = 0.5;
+function gameStartRestart() {
+  startButton.prop("disabled", false);
+  userGameTable.unbind("click");
+  aiGameTable.unbind("click");
   drawGameBoard("user");
   drawGameBoard("ai");
+  horizontalOrVertical = 0.5;
   generateShips("ai");
-}
-
-generateShipsForUserButton.on("click", function () {
-  $("#start").prop("disabled", false);
   horizontalOrVertical = $(".vertical-horizontal-slider").val() / 100;
   generateShips("user");
-});
+  startButton.on("click", handleStartButton);
+}
 
-// Attach click event listeners
-$("#start").one("click", function () {
-  generateShipsForUserButton.prop("disabled", true);
+// Start button handler function
+function handleStartButton() {
+  startGamePlay();
+}
+
+// Start Game Play
+function startGamePlay() {
+  startButton.unbind("click");
+  startButton.prop("disabled", true);
   userGameTable.on("click", "th", handleUserBoardClick);
   aiGameTable.on("click", "th", handleAiBoardClick);
-});
+}
 
 function handleUserBoardClick() {
   console.log("User tile# " + $(this).attr("id"));
@@ -170,4 +174,4 @@ const colorizeShips = (occupiedPositions, player) => {
   });
 };
 // Game Init
-gameStart();
+gameStartRestart();
