@@ -5,12 +5,16 @@ const shipSizes = [1, 2, 2, 3, 4, 5];
 const startButton = $("#start");
 let horizontalOrVertical;
 let userShips, aiShips;
+let damagedAiShips;
+let deadaiShips = [];
 // const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
 
 // Game Init / restart
 function gameStartRestart() {
   userShips = [];
   aiShips = [];
+  damagedAiShips = new Array(6).fill(new Array(0));
+  deadaiShips = [];
   startButton.prop("disabled", false);
   userGameTable.unbind("click");
   aiGameTable.unbind("click");
@@ -47,13 +51,34 @@ function handleAiBoardClick() {
   console.log("Clicked ID: ", clickedTile);
   for (let i = 0; i < aiShips.length; i++) {
     if (aiShips[i].includes(clickedTile)) {
-      console.log("includes");
       $(this).css("background-color", "red");
+      $(this).prop("disabled", true);
+      damagedAiShips[i] = damagedAiShips[i].concat(
+        aiShips[i].splice(aiShips[i].indexOf(clickedTile), 1)
+      );
+      break;
+    } else $(this).css("background-color", "black");
+  }
+  // checking if the ship is dead
+  for (let i = 0; i < aiShips.length; i++) {
+    if (!aiShips[i].length) {
+      if (!aiShips.join("").length) {
+        userGameTable.unbind("click");
+        aiGameTable.unbind("click");
+        console.log("Game Over");
+        return;
+      }
+      damagedAiShips[i].forEach((el) => {
+        console.log("fff", el);
+        $(`#ai-${el}`).css("background-color", "orange");
+      });
+
+      console.log(damagedAiShips[i], " is dead");
     }
   }
-
+  console.log("Ai SHips: ", aiShips);
+  console.log("Damaged Ai SHips: ", damagedAiShips);
   console.log("Ai tile# " + $(this).attr("id"));
-  //   $(this).css("background-color", "black");
 }
 
 function drawGameBoard(player) {
