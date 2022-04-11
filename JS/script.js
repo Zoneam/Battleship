@@ -4,19 +4,22 @@ const restart = $("#restart").on("click", gameStartRestart);
 const shipSizes = [1, 2, 2, 3, 4, 5];
 const startButton = $("#start");
 let horizontalOrVertical;
+let userShips, aiShips;
 // const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
 
 // Game Init / restart
 function gameStartRestart() {
+  userShips = [];
+  aiShips = [];
   startButton.prop("disabled", false);
   userGameTable.unbind("click");
   aiGameTable.unbind("click");
   drawGameBoard("user");
   drawGameBoard("ai");
   horizontalOrVertical = 0.5;
-  generateShips("ai");
+  shipDealership("ai");
   horizontalOrVertical = $(".vertical-horizontal-slider").val() / 100;
-  generateShips("user");
+  shipDealership("user");
   startButton.on("click", handleStartButton);
 }
 
@@ -33,14 +36,24 @@ function startGamePlay() {
   aiGameTable.on("click", "th", handleAiBoardClick);
 }
 
+// User Game Board Click Handler function
 function handleUserBoardClick() {
   console.log("User tile# " + $(this).attr("id"));
   $(this).css("background-color", "green");
 }
-
+// Ai board click handler function
 function handleAiBoardClick() {
+  let clickedTile = parseInt($(this).attr("id").split("-")[1]);
+  console.log("Clicked ID: ", clickedTile);
+  for (let i = 0; i < aiShips.length; i++) {
+    if (aiShips[i].includes(clickedTile)) {
+      console.log("includes");
+      $(this).css("background-color", "red");
+    }
+  }
+
   console.log("Ai tile# " + $(this).attr("id"));
-  $(this).css("background-color", "black");
+  //   $(this).css("background-color", "black");
 }
 
 function drawGameBoard(player) {
@@ -63,11 +76,10 @@ function drawGameBoard(player) {
  * @return {array[array[]]} ships
  */
 // generating battleships
-function generateShips(player) {
-  const arrayOfShips = [];
+function shipDealership(player) {
+  let arrayOfShips;
   let randomLocation = null;
   let occupiedPositions = [];
-  let ship = [];
   let isHorizontal;
   let containsTiles;
   let firstPosition;
@@ -80,20 +92,21 @@ function generateShips(player) {
     ship = [];
     // first 1X1 square placement
     if (i === 0) {
-      firstPosition = generateShipAndPosition(shipSizes[0], false); // 100 is board array length
-      ship.push(firstPosition);
+      arrayOfShips = [];
+      firstPosition = shipFactory(shipSizes[0], false); // 100 is board array length
+      arrayOfShips.push(firstPosition);
       occupiedPositions.push(firstPosition[0]);
       console.log("first position:", firstPosition[0]);
     } else {
       console.log("----------------------------------------------: ");
-      randomLocation = generateShipAndPosition(shipSizes[i], isHorizontal);
+      randomLocation = shipFactory(shipSizes[i], isHorizontal);
       containsTiles = randomLocation.some((position) => {
         return occupiedPositions.includes(position);
       });
       //function to find if can place not overlaping
       while (touchingOthers || containsTiles) {
         suroundTouchArray = [];
-        randomLocation = generateShipAndPosition(shipSizes[i], isHorizontal);
+        randomLocation = shipFactory(shipSizes[i], isHorizontal);
 
         containsTiles = occupiedPositions.some((position) => {
           return randomLocation.includes(position);
@@ -108,22 +121,20 @@ function generateShips(player) {
         });
       }
       occupiedPositions = occupiedPositions.concat(randomLocation);
-      ship.push(randomLocation);
-
+      arrayOfShips.push(randomLocation);
       console.log("occupiedPositions length", occupiedPositions.length);
-      console.log("occupiedPositions: ", occupiedPositions);
-      console.log("randomLocation:   ", randomLocation);
       console.log("containsTiles: ", containsTiles);
     }
-    arrayOfShips.push(ship);
   }
+  player === "user" ? (userShips = arrayOfShips) : (aiShips = arrayOfShips);
   colorizeShips(occupiedPositions, player);
-  console.log("arrayOfShips", arrayOfShips);
-  console.log("occupiedPositions Final: ", occupiedPositions);
+  console.log("User Ships Army", userShips);
+  console.log("Ai Ships Army", aiShips);
+  console.log("occupiedPositions: ", occupiedPositions);
 }
 
 // To Generate random ships
-const generateShipAndPosition = (shipSize, isHorizontal) => {
+const shipFactory = (shipSize, isHorizontal) => {
   let generatedShip = [];
   let horizontalShipArray = [];
   let verticalShipArray = [];
@@ -169,9 +180,10 @@ const colorizeShips = (occupiedPositions, player) => {
   occupiedPositions.forEach((ship, i) => {
     $(`#${player}-${occupiedPositions[i]}`).css(
       "background-color",
-      `${player === "user" ? "blue" : "red"}`
+      `${player === "user" ? "blue" : "grey"}`
     );
   });
 };
+
 // Game Init
 gameStartRestart();
