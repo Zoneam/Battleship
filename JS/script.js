@@ -62,17 +62,17 @@ function handleAiBoardClick() {
   // checking if the ship is dead
   for (let i = 0; i < aiShips.length; i++) {
     if (!aiShips[i].length) {
+      damagedAiShips[i].forEach((el) => {
+        console.log("fff", el);
+        $(`#ai-${el}`).css("background-color", "orange");
+      });
+      // checking if Game is Over
       if (!aiShips.join("").length) {
         userGameTable.unbind("click");
         aiGameTable.unbind("click");
         console.log("Game Over");
         return;
       }
-      damagedAiShips[i].forEach((el) => {
-        console.log("fff", el);
-        $(`#ai-${el}`).css("background-color", "orange");
-      });
-
       console.log(damagedAiShips[i], " is dead");
     }
   }
