@@ -1,14 +1,50 @@
 /* Ripple effect */
 .ripple {
-    background-position: center;
-    transition: background 0.8s;
-  }
-  .ripple:hover {
-    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
-  }
-  .ripple:active {
-    background-color: #6eb9f7;
-    background-size: 100%;
-    transition: background 0s;
-  }
-  
+  background-position: center;
+  transition: background 0.8s;
+}
+.ripple:hover {
+  background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%)
+    center/15000%;
+}
+.ripple:active {
+  background-color: #6eb9f7;
+  background-size: 100%;
+  transition: background 0s;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.vertical-horizontal-slider {
+  -webkit-appearance: none;
+  /* width: 100%; */
+  height: 25px;
+  background: #d3d3d3;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.vertical-horizontal-slider:hover {
+  opacity: 1;
+}
+
+.vertical-horizontal-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  /* appearance: none; */
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: url("../images/icons8-ordinata-30.png");
+  cursor: ew-resize;
+}
+
+.vertical-horizontal-slider::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: url("../images/icons8-ordinata-30.png");
+  cursor: ew-resize;
+}

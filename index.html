@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
     <script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <script defer src="./JS/script.js"></script>
-    <link rel="stylesheet" href="./CSS/extra.css">
-    <link rel="stylesheet" href="./CSS/style.css">
-</head>
+    <link rel="stylesheet" href="./CSS/extra.css" />
+    <link rel="stylesheet" href="./CSS/style.css" />
+  </head>
 
-<body>    
+  <body>
     <nav>
-
-        <button id="start" >Start The Game</button>
-        <button id="restart" >RESTART</button>
-        <button id="generate-ships-for-user" >Generate My Ships</button>
+      <button id="start">Start The Game</button>
+      <button id="restart">RESTART</button>
+      <button id="generate-ships-for-user">Generate My Ships</button>
+      <div class="slidecontainer">
+        <p>Vertical or Horizontal</p>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="50"
+          class="vertical-horizontal-slider"
+          id="vertical-horizontal-slider"
+        />
+      </div>
     </nav>
 
     <div id="both-games-wrapper">
-        <div id="board-wrapper">
-            <table id="user-game-table">
-            </table>
-        </div>
+      <div id="board-wrapper">
+        <table id="user-game-table"></table>
+      </div>
 
-        <div id="ai-board-wrapper">
-            <table id="ai-game-table">
-            </table>
-        </div>    
-
+      <div id="ai-board-wrapper">
+        <table id="ai-game-table"></table>
+      </div>
     </div>
-
-</body>
+  </body>
 </html>
