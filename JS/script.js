@@ -6,15 +6,18 @@ const startButton = $("#start");
 let horizontalOrVertical;
 let userShips, aiShips;
 let damagedAiShips;
-let deadaiShips = [];
-// const emptyGameArray = new Array(10).fill(new Array(10).fill('-'));
-
+let deadAiShips = [];
+let damagedUserShips;
+let deadUserShips = [];
+let attackedTiles;
 // Game Init / restart
 function gameStartRestart() {
+  deadAiShips = [];
   userShips = [];
   aiShips = [];
-  damagedAiShips = new Array(6).fill(new Array(0));
-  deadaiShips = [];
+  attackedTiles = [];
+  damagedAiShips = new Array(shipSizes.length).fill(new Array(0));
+  damagedUserShips = new Array(shipSizes.length).fill(new Array(0));
   startButton.prop("disabled", false);
   userGameTable.unbind("click");
   aiGameTable.unbind("click");
@@ -42,13 +45,14 @@ function startGamePlay() {
 
 // User Game Board Click Handler function
 function handleUserBoardClick() {
-  console.log("User tile# " + $(this).attr("id"));
+  if (userShips) console.log("User tile# " + $(this).attr("id"));
   $(this).css("background-color", "green");
 }
 // Ai board click handler function
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
   console.log("Clicked ID: ", clickedTile);
+
   for (let i = 0; i < aiShips.length; i++) {
     if (aiShips[i].includes(clickedTile)) {
       $(this).css("background-color", "red");
@@ -57,13 +61,16 @@ function handleAiBoardClick() {
         aiShips[i].splice(aiShips[i].indexOf(clickedTile), 1)
       );
       break;
-    } else $(this).css("background-color", "black");
+    } else {
+      $(this).prop("disabled", true);
+      $(this).css("background-color", "black");
+    }
   }
+
   // checking if the ship is dead
   for (let i = 0; i < aiShips.length; i++) {
     if (!aiShips[i].length) {
       damagedAiShips[i].forEach((el) => {
-        console.log("fff", el);
         $(`#ai-${el}`).css("background-color", "orange");
       });
       // checking if Game is Over
@@ -76,10 +83,68 @@ function handleAiBoardClick() {
       console.log(damagedAiShips[i], " is dead");
     }
   }
+  console.log("User SHips: ", userShips);
   console.log("Ai SHips: ", aiShips);
   console.log("Damaged Ai SHips: ", damagedAiShips);
   console.log("Ai tile# " + $(this).attr("id"));
+  counterAttack();
 }
+// AI Attacs user
+function counterAttack() {
+  console.log("---------COUNTER ATTACK---------");
+  let attackCordinate = getValidAttackCordinates();
+  attackedTiles.push(attackCordinate);
+
+  let attackedTile = parseInt(
+    $(`#user-${attackCordinate}`).attr("id").split("-")[1]
+  );
+  console.log("Attacked ID: ", attackedTile);
+
+  for (let i = 0; i < userShips.length; i++) {
+    if (userShips[i].includes(attackedTile)) {
+      $(`#user-${attackCordinate}`).css("background-color", "red");
+      $(`#user-${attackCordinate}`).prop("disabled", true);
+      damagedUserShips[i] = damagedUserShips[i].concat(
+        userShips[i].splice(userShips[i].indexOf(attackCordinate), 1)
+      );
+      break;
+    } else {
+      $(`#user-${attackCordinate}`).prop("disabled", true);
+      $(`#user-${attackCordinate}`).css("background-color", "black");
+    }
+  }
+  // checking if the ship is dead
+  for (let i = 0; i < userShips.length; i++) {
+    if (!userShips[i].length) {
+      damagedUserShips[i].forEach((el) => {
+        $(`#user-${el}`).css("background-color", "orange");
+      });
+      // checking if Game is Over
+      if (!userShips.join("").length) {
+        userGameTable.unbind("click");
+        aiGameTable.unbind("click");
+        console.log("Game Over");
+        return;
+      }
+      console.log(damagedUserShips[i], " is dead");
+    }
+  }
+  console.log(damagedUserShips);
+  //   $(`#user-${attackCordinate}`).css("background-color", "black");
+  console.log("attackedTiles: ", attackedTiles);
+}
+// generate valid and smart attacs
+const getValidAttackCordinates = () => {
+  let attackCordinate;
+  let valid = false;
+  //   if (damagedUserShips)
+  while (!valid) {
+    attackCordinate = Math.floor(Math.random() * 100);
+    if (!attackedTiles.includes(attackCordinate)) valid = true;
+  }
+
+  return attackCordinate;
+};
 
 function drawGameBoard(player) {
   let gameBoard = "";
@@ -205,7 +270,7 @@ const colorizeShips = (occupiedPositions, player) => {
   occupiedPositions.forEach((ship, i) => {
     $(`#${player}-${occupiedPositions[i]}`).css(
       "background-color",
-      `${player === "user" ? "blue" : "grey"}`
+      `${player === "user" ? "blue" : "white"}`
     );
   });
 };
