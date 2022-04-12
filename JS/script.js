@@ -21,6 +21,7 @@ function gameStartRestart() {
   startButton.prop("disabled", false);
   userGameTable.unbind("click");
   aiGameTable.unbind("click");
+  startButton.unbind("click");
   drawGameBoard("user");
   drawGameBoard("ai");
   horizontalOrVertical = 0.5;
@@ -130,7 +131,6 @@ function counterAttack() {
     }
   }
   console.log(damagedUserShips);
-  //   $(`#user-${attackCordinate}`).css("background-color", "black");
   console.log("attackedTiles: ", attackedTiles);
 }
 // generate valid and smart attacs
@@ -142,6 +142,8 @@ const getValidAttackCordinates = () => {
     attackCordinate = Math.floor(Math.random() * 100);
     if (!attackedTiles.includes(attackCordinate)) valid = true;
   }
+
+  // Work here to implement AI
 
   return attackCordinate;
 };
