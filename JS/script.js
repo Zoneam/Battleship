@@ -3,11 +3,13 @@ const aiGameTable = $("#ai-game-table");
 const restart = $("#restart").on("click", gameStartRestart);
 const startButton = $("#start");
 const shipSizes = [1, 2, 2, 3, 4, 5];
-let userShips, aiShips,damagedAiShips,attackedTiles,damagedUserShips,horizontalOrVertical;
+let userShips, aiShips,damagedAiShips,attackedTiles,damagedUserShips,horizontalOrVertical,foundShip;
 let deadAiShips = [];
 let deadUserShips = [];
+let generateSuroundingAttackAreas = [];
 // Game Init / restart
 function gameStartRestart() {
+    foundShip = [];
   deadAiShips = [];
   userShips = [];
   aiShips = [];
@@ -75,7 +77,6 @@ function handleAiBoardClick() {
     }
     }
     
-
       // checking if Game is Over
       if (!aiShips.join("").length) {
         userGameTable.unbind("click");
@@ -103,7 +104,8 @@ function counterAttack() {
   console.log("Attacked ID: ", attackedTile);
 
   for (let i = 0; i < userShips.length; i++) {
-    if (userShips[i].includes(attackedTile)) {
+      if (userShips[i].includes(attackedTile)) {
+          foundShip.push(attackedTile);
       $(`#user-${attackCordinate}`).css("background-color", "red");
       $(`#user-${attackCordinate}`).prop("disabled", true);
       damagedUserShips[i] = damagedUserShips[i].concat(
@@ -121,7 +123,6 @@ function counterAttack() {
       damagedUserShips[i].forEach((el) => {
         $(`#user-${el}`).css("background-color", "orange");
       });
-
       console.log(damagedUserShips[i], " is dead");
     }
     }
@@ -132,19 +133,48 @@ function counterAttack() {
             aiGameTable.unbind("click");
             console.log("Game Over");
             return;
-          }
-  console.log(damagedUserShips);
+    }
+  console.log("damagedUserShips:",damagedUserShips);
   console.log("attackedTiles: ", attackedTiles);
 }
 // generate valid and smart attacs
 const getValidAttackCordinates = () => {
-  let attackCordinate;
-  let valid = false;
-  //   if (damagedUserShips)
-  while (!valid) {
+    let attackCordinate;
+    let valid = false;
+    console.log("foundShip", foundShip)
+    
+    if (foundShip.length === 1) {
+        if (foundShip[0] % 10 === 0) {
+            generateSuroundingAttackAreas.push(foundShip[0] + 1, foundShip[0] + 10, foundShip[0] - 10);
+        }
+        if (foundShip[0] < 10) {
+            generateSuroundingAttackAreas.push(foundShip[0] + 1,foundShip[0] - 1, foundShip[0] + 10);
+        }
+        if (foundShip[0] >= 90) {
+            generateSuroundingAttackAreas.push(foundShip[0] + 1,foundShip[0] - 1, foundShip[0] - 10);
+        }
+        if (foundShip[0]+1 % 10 === 0) {
+            generateSuroundingAttackAreas.push(foundShip[0] - 1, foundShip[0] + 10, foundShip[0] - 10);
+        }
+        return generateSuroundingAttackAreas[Math.floor(Math.random() * generateSuroundingAttackAreas.length)];
+
+    } else if (foundShip.length > 1 && Math.abs(foundShip[1] - foundShip[0]) === 10) {
+        
+        generateSuroundingAttackAreas.push(foundShip[0] - 10, foundShip[foundShip.length - 1] + 10);
+        
+        return generateSuroundingAttackAreas[Math.floor(Math.random() * generateSuroundingAttackAreas.length)];
+    } else {
+          while (!valid) {
     attackCordinate = Math.floor(Math.random() * 100);
     if (!attackedTiles.includes(attackCordinate)) valid = true;
   }
+    }
+
+
+
+    console.log("Surounding", generateSuroundingAttackAreas)
+
+
 
   // Work here to implement AI
 
