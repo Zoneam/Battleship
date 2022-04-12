@@ -1,15 +1,11 @@
 const userGameTable = $("#user-game-table");
 const aiGameTable = $("#ai-game-table");
 const restart = $("#restart").on("click", gameStartRestart);
-const shipSizes = [1, 2, 2, 3, 4, 5];
 const startButton = $("#start");
-let horizontalOrVertical;
-let userShips, aiShips;
-let damagedAiShips;
+const shipSizes = [1, 2, 2, 3, 4, 5];
+let userShips, aiShips,damagedAiShips,attackedTiles,damagedUserShips,horizontalOrVertical;
 let deadAiShips = [];
-let damagedUserShips;
 let deadUserShips = [];
-let attackedTiles;
 // Game Init / restart
 function gameStartRestart() {
   deadAiShips = [];
@@ -71,9 +67,15 @@ function handleAiBoardClick() {
   // checking if the ship is dead
   for (let i = 0; i < aiShips.length; i++) {
     if (!aiShips[i].length) {
-      damagedAiShips[i].forEach((el) => {
+        damagedAiShips[i].forEach((el) => {
+          console.log("coloring")
         $(`#ai-${el}`).css("background-color", "orange");
       });
+      console.log(damagedAiShips[i], " is dead");
+    }
+    }
+    
+
       // checking if Game is Over
       if (!aiShips.join("").length) {
         userGameTable.unbind("click");
@@ -81,9 +83,8 @@ function handleAiBoardClick() {
         console.log("Game Over");
         return;
       }
-      console.log(damagedAiShips[i], " is dead");
-    }
-  }
+
+
   console.log("User SHips: ", userShips);
   console.log("Ai SHips: ", aiShips);
   console.log("Damaged Ai SHips: ", damagedAiShips);
@@ -120,16 +121,18 @@ function counterAttack() {
       damagedUserShips[i].forEach((el) => {
         $(`#user-${el}`).css("background-color", "orange");
       });
-      // checking if Game is Over
-      if (!userShips.join("").length) {
-        userGameTable.unbind("click");
-        aiGameTable.unbind("click");
-        console.log("Game Over");
-        return;
-      }
+
       console.log(damagedUserShips[i], " is dead");
     }
-  }
+    }
+    
+          // checking if Game is Over
+          if (!userShips.join("").length) {
+            userGameTable.unbind("click");
+            aiGameTable.unbind("click");
+            console.log("Game Over");
+            return;
+          }
   console.log(damagedUserShips);
   console.log("attackedTiles: ", attackedTiles);
 }
@@ -272,7 +275,7 @@ const colorizeShips = (occupiedPositions, player) => {
   occupiedPositions.forEach((ship, i) => {
     $(`#${player}-${occupiedPositions[i]}`).css(
       "background-color",
-      `${player === "user" ? "blue" : "white"}`
+      `${player === "user" ? "blue" : "green"}`
     );
   });
 };
