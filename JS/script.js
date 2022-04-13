@@ -22,6 +22,7 @@ function gameStartRestart() {
   killedShipsIndexes =[];
   attackedPositions = [];
   deadAiShips = [];
+  damagedShip = [];
   userShips = [];
   aiShips = [];
   attackedTiles = [];
@@ -110,15 +111,14 @@ function handleAiBoardClick() {
 let attackedPositions = [];
 let shot;
 let damage = false;
-
-
+let damagedShip = []
+let betterAttackArray;
 function counterAttack() {
   console.log("---------COUNTER ATTACK---------");
   let valid = false;
   let randomPos;
 
   if (!attackArray.length || damage){
-    
       if (damage) {
         if (shot % 10 === 0 && shot !== 0 && shot !==90) {
           attackArray.push(shot + 1, shot + 10, shot - 10)
@@ -143,7 +143,6 @@ function counterAttack() {
           attackArray = [Math.floor(Math.random() * 100)];
           console.log("Surounding possible array");
         }
-        
         attackArray = attackArray.filter(el => {
             return !attackedPositions.includes(el)
         })
@@ -160,43 +159,37 @@ function counterAttack() {
       }
     }
   }
-  
+ 
   shot = attackArray[attackArray.length - 1];
-
-  
   console.log("attackArray",attackArray);
-
-
 
   if(occupiedPositions.includes(shot)){
     $(`#user-${Number(shot)}`).css("background-color", "red");
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = true;
+    damagedShip.push(shot)
     console.log("hit")
   } else {
     $(`#user-${Number(shot)}`).css("background-color", "black");
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = false;
   }
-// if killed ship
+// check for kill
 
+  
+  //Game Over
+  
+  
+  
+  
   attackedPositions = attackedPositions.concat(attackArray.pop());
   
-console.log("Attacked Positions",attackedPositions);
+  console.log("Attacked Positions",attackedPositions);
   
 
 
 }
 //************************************************************************************************ */
-
-
-
-
-
-
-
-
-
 
 function drawGameBoard(player) {
   let gameBoard = "";
