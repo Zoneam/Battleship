@@ -16,6 +16,12 @@ let userShips,
 let deadAiShips = [];
 let deadUserShips = [];
 let occupiedPositions
+let attackedPositions = [];
+let shot;
+let damage = false;
+let damagedShip = []
+let betterAttackArray;
+let deadShip=[];
 // Game Init / restart
 function gameStartRestart() {
   foundShip = [];
@@ -108,11 +114,6 @@ function handleAiBoardClick() {
 // AI Attacs user
 
 
-let attackedPositions = [];
-let shot;
-let damage = false;
-let damagedShip = []
-let betterAttackArray;
 function counterAttack() {
   console.log("---------COUNTER ATTACK---------");
   let valid = false;
@@ -209,7 +210,9 @@ function counterAttack() {
 
   shot = attackArray[attackArray.length - 1];
   console.log("attackArray",attackArray);
+  attackedPositions = attackedPositions.concat(attackArray.pop());
 
+  // coloring tiles
   if(occupiedPositions.includes(shot)){
     $(`#user-${Number(shot)}`).css("background-color", "red");
     $(`#user-${Number(shot)}`).prop("disabled", true);
@@ -221,19 +224,35 @@ function counterAttack() {
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = false;
   }
-// check for kill
 
-  
-  
-  
-  
-  
-  
-  attackedPositions = attackedPositions.concat(attackArray.pop());
+
+// check for kill
+  userShips.forEach((el,i) => {
+    if(el.every(pos => attackedPositions.includes(pos))){
+      console.log("Im Here", userShips[i]);
+      deadShip = userShips[i];
+      userShips.splice(i, 1);
+    }
+  })
+
+  if (deadShip.length){
+    deadShip.forEach(el => {
+      console.log(el);
+      $(`#user-${el}`).css("background-color", "orange");
+      $(`#user-${el}`).prop("disabled", true);
+    })
+  }
+
+  console.log(deadShip);
   
   console.log("Attacked Positions",attackedPositions);
-  
-
+// checking if Game is Over
+if (!userShips.join("").length) {
+  userGameTable.unbind("click");
+  aiGameTable.unbind("click");
+  console.log("Game Over AI Won the Game");
+  return;
+}
 
 }
 //************************************************************************************************ */
