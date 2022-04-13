@@ -73,15 +73,18 @@ function handleAiBoardClick() {
 
   for (let i = 0; i < aiShips.length; i++) {
     if (aiShips[i].includes(clickedTile)) {
-      $(this).css("background-color", "red");
+      $(this).text("X");
+      $(this).addClass("hit");
+      $(this).css("background-color", "#ff9900");
       $(this).prop("disabled", true);
       damagedAiShips[i] = damagedAiShips[i].concat(
         aiShips[i].splice(aiShips[i].indexOf(clickedTile), 1)
       );
       break;
     } else {
+      $(this).addClass("hit");
       $(this).prop("disabled", true);
-      $(this).css("background-color", "black");
+      $(this).css("background-color", "#808080");
     }
   }
 
@@ -90,7 +93,7 @@ function handleAiBoardClick() {
     if (!aiShips[i].length) {
       damagedAiShips[i].forEach((el) => {
         console.log("coloring");
-        $(`#ai-${el}`).css("background-color", "orange");
+        $(`#ai-${el}`).css("background-color", "red");
       });
       console.log(damagedAiShips[i], " is dead");
     }
@@ -215,13 +218,17 @@ function counterAttack() {
 
   // coloring tiles
   if(occupiedPositions.includes(shot)){
-    $(`#user-${Number(shot)}`).css("background-color", "red");
+    $(`#user-${Number(shot)}`).text("X")
+    $(`#user-${Number(shot)}`).addClass("hit");
+    $(`#user-${Number(shot)}`).css("background-color", "#ff9900");
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = true;
     damagedShip.push(shot)
     console.log("hit")
   } else {
-    $(`#user-${Number(shot)}`).css("background-color", "black");
+
+    $(`#user-${Number(shot)}`).css("background-color", "#808080");
+    $(`#user-${Number(shot)}`).addClass("hit");
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = false;
   }
@@ -237,7 +244,7 @@ function counterAttack() {
 console.log("deadShip",deadShip);
   if (deadShip.length){
     deadShip.forEach(el => {
-      $(`#user-${el}`).css("background-color", "orange");
+      $(`#user-${el}`).css("background-color", "red");
       $(`#user-${el}`).prop("disabled", true);
     })
   }
@@ -257,7 +264,9 @@ if (!userShips.join("").length) {
   console.log("Game Over AI Won the Game");
   // Reveal Ai Array when Ai wins
   aiShips.flat().forEach(el=>{
-    $(`#${"ai"}-${el}`).css("background-color", "blue");
+    $(`#${"ai"}-${el}`).addClass('grow');
+    // $(`#${"ai"}-${el}`).css('background', 'url("./images/github.png")')
+    // $(`#${"ai"}-${el}`).css("background-color", "#38d7ff");
   })
   return;
 }
@@ -273,7 +282,7 @@ function drawGameBoard(player) {
       player + "-" + "row" + "-" + i * 10
     }"></tr>`;
     for (let j = 0; j < 10; j++) {
-      gameBoard += `<th class='tg-0lax ripple' id="${
+      gameBoard += `<th class='tg-0lax ripple' style="font-size: 30px" id="${
         player + "-" + (i * 10 + j)
       }"></th>`;
     }
@@ -388,7 +397,7 @@ const shipFactory = (shipSize, isHorizontal) => {
 // Colorize oponent ships
 const colorizeShips = (occupiedPositions, player) => {
   occupiedPositions.forEach((ship, i) => {
-    $(`#${player}-${occupiedPositions[i]}`).css("background-color",`${player === "user" ? "blue" : "white"}`);
+    $(`#${player}-${occupiedPositions[i]}`).css("background-color",`${player === "user" ? "blue" : "ffefdb"}`);
   });
 };
 
