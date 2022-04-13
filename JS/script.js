@@ -3,25 +3,23 @@ const aiGameTable = $("#ai-game-table");
 const restart = $("#restart").on("click", gameStartRestart);
 const startButton = $("#start");
 const shipSizes = [1, 2, 2, 3, 4, 5];
-let userShips,
-  aiShips,
+let userShips, aiShips,
   damagedAiShips,
   attackedTiles,
   damagedUserShips,
   horizontalOrVertical, 
-  foundShip;
-  let kill;
-  let killedShipsIndexes;
-  let attackArray;
+  foundShip, kill, kills, aiShipPositions,aiKills,
+  killedShipsIndexes, attackArray, shot,betterAttackArray, deadShip, occupiedPositions;
 let deadAiShips = [];
 let deadUserShips = [];
-let occupiedPositions
 let attackedPositions = [];
-let shot;
 let damage = false;
 let damagedShip = []
-let betterAttackArray;
-let deadShip=[];
+
+// Start button handler function
+function handleStartButton() {
+  startGamePlay();
+}
 // Game Init / restart
 function gameStartRestart() {
   foundShip = [];
@@ -32,6 +30,10 @@ function gameStartRestart() {
   userShips = [];
   aiShips = [];
   attackedTiles = [];
+  deadShip=[];
+  aiHit = 0;
+  aiKills = 0;
+  aiShipPositions = [];
   kill = false;
   attackArray = [];
   damagedAiShips = new Array(shipSizes.length).fill(new Array(0));
@@ -49,11 +51,6 @@ function gameStartRestart() {
   startButton.on("click", handleStartButton);
 }
 
-// Start button handler function
-function handleStartButton() {
-  startGamePlay();
-}
-
 // Start Game Play
 function startGamePlay() {
   startButton.unbind("click");
@@ -69,7 +66,9 @@ function handleUserBoardClick() {
 }
 // Ai board click handler function
 function handleAiBoardClick() {
+
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
+  kills = 0;
   console.log("Clicked ID: ", clickedTile);
 
   for (let i = 0; i < aiShips.length; i++) {
@@ -96,6 +95,13 @@ function handleAiBoardClick() {
       console.log(damagedAiShips[i], " is dead");
     }
   }
+  // Counting Kills
+  aiShips.forEach(el =>{
+    if (!el.length){
+      kills++
+    }
+  })
+  $('#kills').text(kills)
 
   // checking if Game is Over
   if (!aiShips.join("").length) {
@@ -162,8 +168,6 @@ function counterAttack() {
       }
     }
   }
- 
- 
   if (attackArray.length && damage) {
     betterAttackArray = [];
     console.log("damagedShip9999999999999999999999999999", damagedShip)
@@ -191,7 +195,6 @@ function counterAttack() {
     }
   }
 
-
 // if no available shooting tiles generate random
    valid = false;
   if (!attackArray.length) {
@@ -205,8 +208,6 @@ function counterAttack() {
       }
     }
   }
-
-
 
   shot = attackArray[attackArray.length - 1];
   console.log("attackArray",attackArray);
@@ -225,7 +226,6 @@ function counterAttack() {
     damage = false;
   }
 
-
 // check for kill
   userShips.forEach((el,i) => {
     if(el.every(pos => attackedPositions.includes(pos))){
@@ -234,10 +234,9 @@ function counterAttack() {
       userShips.splice(i, 1);
     }
   })
-
+console.log("deadShip",deadShip);
   if (deadShip.length){
     deadShip.forEach(el => {
-      console.log(el);
       $(`#user-${el}`).css("background-color", "orange");
       $(`#user-${el}`).prop("disabled", true);
     })
@@ -246,11 +245,20 @@ function counterAttack() {
   console.log(deadShip);
   
   console.log("Attacked Positions",attackedPositions);
+
+  // Counting Kills
+  $("#ai-kills").text(6 - userShips.length)
+  $('#hits').text(attackedPositions.length)
 // checking if Game is Over
+console.log("AI SHIIIIIIP",aiShips)
 if (!userShips.join("").length) {
   userGameTable.unbind("click");
   aiGameTable.unbind("click");
   console.log("Game Over AI Won the Game");
+  // Reveal Ai Array when Ai wins
+  aiShips.flat().forEach(el=>{
+    $(`#${"ai"}-${el}`).css("background-color", "blue");
+  })
   return;
 }
 
@@ -373,13 +381,14 @@ const shipFactory = (shipSize, isHorizontal) => {
     for (let i = 0; i < shipSize; i++) {
       generatedShip.push(randomLocation + i);
     }
+    
     return generatedShip;
   }
 };
 // Colorize oponent ships
 const colorizeShips = (occupiedPositions, player) => {
   occupiedPositions.forEach((ship, i) => {
-    $(`#${player}-${occupiedPositions[i]}`).css("background-color",`${player === "user" ? "blue" : "green"}`);
+    $(`#${player}-${occupiedPositions[i]}`).css("background-color",`${player === "user" ? "blue" : "white"}`);
   });
 };
 
