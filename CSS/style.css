@@ -13,7 +13,7 @@
 #user-game-table th{
     border-color:black;
     border-style:solid;
-    border-width:1px;
+    border-width:2px;
     font-family:Arial, sans-serif;
     font-size:14px;
     font-weight:normal;
@@ -28,14 +28,14 @@
 #ai-game-table td {
     border-color:black;
     border-style:solid;
-    border-width:1px;
+    border-width:2px;
     font-size:14px;
 }
 
 #ai-game-table th{
     border-color:black;
     border-style:solid;
-    border-width:1px;
+    border-width:2px;
     font-family:Arial, sans-serif;
     font-size:14px;
     font-weight:normal;
@@ -57,7 +57,7 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
-    width: 1600px;
+    width: 1630px;
 }
 
 #start-withboards{
@@ -69,9 +69,11 @@
 }
 
 #start{
-    margin-top: 50px;
+    /* margin-top: 50px;
     width:400px;
-    height: 90px;
+    height: 90px; */
+    margin-top: 5px;
+    width: -webkit-fill-available;
 }
 
 h1{
@@ -98,6 +100,7 @@ h1{
     padding-top: 2px;
     display: flex;
     flex-direction: column;
+    background-color: aliceblue;
     justify-content: space-between;
 }
 
