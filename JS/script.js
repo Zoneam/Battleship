@@ -119,7 +119,7 @@ function counterAttack() {
   let randomPos;
 
   if (!attackArray.length || damage){
-      if (damage) {
+    if (damage) {
         if (shot % 10 === 0 && shot !== 0 && shot !==90) {
           attackArray.push(shot + 1, shot + 10, shot - 10)
         } else if(shot < 9 && shot !== 0) {
@@ -139,9 +139,10 @@ function counterAttack() {
         } else {
           attackArray.push(shot - 1, shot + 1, shot + 10, shot - 10)
         }
-      } else {
+    } else {
+      damagedShip = [];
           attackArray = [Math.floor(Math.random() * 100)];
-          console.log("Surounding possible array");
+          console.log("Surounding possible array",attackArray);
         }
         attackArray = attackArray.filter(el => {
             return !attackedPositions.includes(el)
@@ -155,11 +156,57 @@ function counterAttack() {
         if (!attackedPositions.includes(randomPos)) {
           attackArray = [randomPos];
           valid = true;
+          damagedShip = [];
         }
       }
     }
   }
  
+ 
+  if (attackArray.length && damage) {
+    betterAttackArray = [];
+    console.log("damagedShip9999999999999999999999999999", damagedShip)
+    if (damagedShip.length >= 2) {
+      console.log("damagedShip***********************", damagedShip)
+      if (Math.abs(damagedShip[1] - damagedShip[0]) === 10) { //is vertical
+        console.log("vertical", damagedShip)
+        attackArray = attackArray.filter(el => {
+          console.log("el[el.length - 1]", el % 10)
+          console.log("damagedShip[0][damagedShip.length - 1]", damagedShip[0] % 10)
+            return el % 10 === damagedShip[0] % 10
+        })
+
+        
+      }
+      console.log("betterAttackArray", attackArray)
+      if (Math.abs(damagedShip[1] - damagedShip[0]) === 1) { // check for horizontal
+        console.log("verticHorizontalal", damagedShip)
+        attackArray = attackArray.filter(el => {
+          console.log( el )
+          console.log( damagedShip[0])
+          return (Math.abs(el - damagedShip[0]) < 8);
+        })
+      }
+    }
+  }
+
+
+// if no available shooting tiles generate random
+   valid = false;
+  if (!attackArray.length) {
+    while (!valid) {
+      console.log("inside while")
+      randomPos = Math.floor(Math.random() * 100);
+      if (!attackedPositions.includes(randomPos)) {
+        attackArray = [randomPos];
+        valid = true;
+        damagedShip = [];
+      }
+    }
+  }
+
+
+
   shot = attackArray[attackArray.length - 1];
   console.log("attackArray",attackArray);
 
@@ -177,7 +224,7 @@ function counterAttack() {
 // check for kill
 
   
-  //Game Over
+  
   
   
   
@@ -285,7 +332,7 @@ const shipFactory = (shipSize, isHorizontal) => {
     randomLocation =
       verticalShipArray[
         Math.floor(Math.random() * (100 - (shipSize - 1) * 10))
-      ]; // -1 ??
+      ]; 
     for (let i = 0; i < shipSize; i++) {
       generatedShip.push(randomLocation + i * 10);
     }
@@ -303,7 +350,7 @@ const shipFactory = (shipSize, isHorizontal) => {
       }
     }
     randomLocation =
-      horizontalShipArray[Math.floor(Math.random() * (110 - shipSize * 10))]; // -1 ??
+      horizontalShipArray[Math.floor(Math.random() * (110 - shipSize * 10))]; 
     for (let i = 0; i < shipSize; i++) {
       generatedShip.push(randomLocation + i);
     }
