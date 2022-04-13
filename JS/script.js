@@ -114,23 +114,56 @@ let damage = false;
 
 function counterAttack() {
   console.log("---------COUNTER ATTACK---------");
-let valid = false;
-  if (!attackArray.length){
-      do{
+  let valid = false;
+  let randomPos;
 
-        console.log("Surounding");
-        attackArray = [Math.floor(Math.random() * 100)];
-        
-        if (attackedPositions.includes){
-          
+  if (!attackArray.length || damage){
+    
+      if (damage) {
+        if (shot % 10 === 0 && shot !== 0 && shot !==90) {
+          attackArray.push(shot + 1, shot + 10, shot - 10)
+        } else if(shot < 9 && shot !== 0) {
+          attackArray.push(shot + 1, shot - 1, shot + 10)
+        } else if (shot > 90 && shot !== 99) {
+          attackArray.push(shot + 1, shot - 1, shot - 10)
+        } else if ((shot + 1) % 10 === 0 && shot !== 99 && shot !== 9) {
+          attackArray.push(shot - 1, shot + 10, shot - 10)
+        } else if (shot === 0) {
+          attackArray.push(shot + 1, shot + 10)
+        } else if(shot === 90) {
+          attackArray.push(shot + 1, shot - 10)
+        } else if (shot === 99) {
+          attackArray.push(shot - 1, shot - 10)
+        } else if (shot === 9) {
+          attackArray.push(shot - 1, shot + 10)
+        } else {
+          attackArray.push(shot - 1, shot + 1, shot + 10, shot - 10)
         }
-
-      } while (!valid)
-      attackedPositions = attackedPositions.concat(attackArray);
+      } else {
+          attackArray = [Math.floor(Math.random() * 100)];
+          console.log("Surounding possible array");
+        }
+        
+        attackArray = attackArray.filter(el => {
+            return !attackedPositions.includes(el)
+        })
+    console.log("Attack Array-----------------------",attackArray)
+    if (!attackArray.length) {
+      console.log(attackArray, "+++++++++++++++" )
+      while (!valid) {
+        console.log("inside while")
+        randomPos = Math.floor(Math.random() * 100);
+        if (!attackedPositions.includes(randomPos)) {
+          attackArray = [randomPos];
+          valid = true;
+        }
+      }
+    }
   }
-  shot = attackArray[Math.floor(Math.random() * attackArray.length)]
+  
+  shot = attackArray[attackArray.length - 1];
 
-  console.log("Attacked Positions",attackedPositions);
+  
   console.log("attackArray",attackArray);
 
 
@@ -147,9 +180,10 @@ let valid = false;
   }
 // if killed ship
 
-
-
-  attackArray.pop()
+  attackedPositions = attackedPositions.concat(attackArray.pop());
+  
+console.log("Attacked Positions",attackedPositions);
+  
 
 
 }
