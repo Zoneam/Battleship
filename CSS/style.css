@@ -229,7 +229,7 @@ span {
   }
   .side-controls {
     margin: 5px;
-    height: 90px;
+    height: 93px;
   }
   .infotextwrap {
     display: flex;
@@ -270,7 +270,6 @@ span {
   }
   #user-game-table {
     align-self: center;
-    width: 56%;
   }
   #user-game-table .tg-0lax {
     height: 20px;

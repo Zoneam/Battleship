@@ -1,3 +1,4 @@
+// 
 const userGameTable = $("#user-game-table");
 const aiGameTable = $("#ai-game-table");
 const restart = $("#restart").on("click", gameStartRestart);
@@ -69,11 +70,10 @@ function gameStartRestart() {
 function startGamePlay() {
   startButton.unbind("click");
   startButton.prop("disabled", true);
-
   aiGameTable.on("click", "th", handleAiBoardClick);
 }
 
-// Ai board click handler function
+// User Attacks Ai Board
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
   kills = 0;
@@ -245,7 +245,7 @@ function counterAttack() {
     return;
   }
 }
-//*************style="font-size: 30px"*********************************************************************************** */
+//************************************************************************************************ */
 
 function drawGameBoard(player) {
   let gameBoard = "";

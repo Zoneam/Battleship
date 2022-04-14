@@ -26,13 +26,23 @@ To run locally:
 
 ## Usage:
 
-[Click here for deployed app](https://)
+[Click here for deployed app](https://battle-ships2.netlify.app)
 
-On the page you can generate your battleships randomly and choose the orientation;
-After generating balleships you can click start game button and game will begin.
-After successfully destroying oponents battleships statistics will show up.
+* On the page you can generate your battleships randomly and choose the orientation.
+* Click Start The Battle button and game will begin.
+* Click on the boart to make the first shot.
+* AI will play randomly until it finds a ship.
+* After damaging a ship AI will start hitting all possible (4 if available) directions to find ship orientation (vertical or horizontal).
+* After second successful hit AI will determine ship orientation and follow ship direction to destroy it.
+* After destroying ship it will start hitting randomly to find another ship.
+* After destroying opponents ships (total of 6) Game Over message will show up and winner will be announced.
+* You can reset the game by pressing New Game button.
 
-![Screenshot]()
+![Screenshot Desktop](./images/screenshot-desktop.png)
+
+<p align="center">
+  <img width="230"  src="./images/screenshot-mobile.png">
+</p>
 
 ## License:
 
