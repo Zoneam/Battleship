@@ -49,7 +49,11 @@ function gameStartRestart() {
   damagedAiShips = new Array(shipSizes.length).fill(new Array(0));
   damagedUserShips = new Array(shipSizes.length).fill(new Array(0));
   startButton.prop("disabled", false);
-  userGameTable.unbind("click");
+  $('#game-over').text('');
+  $("#game-over").removeClass("flipdown");
+  $("#ai-kills").text('0');
+  $("#hits").text('0');
+  $("#kills").text('0');
   aiGameTable.unbind("click");
   startButton.unbind("click");
   drawGameBoard("user");
@@ -65,15 +69,11 @@ function gameStartRestart() {
 function startGamePlay() {
   startButton.unbind("click");
   startButton.prop("disabled", true);
-  userGameTable.on("click", "th", handleUserBoardClick);
+
   aiGameTable.on("click", "th", handleAiBoardClick);
 }
 
-// User Game Board Click Handler function
-function handleUserBoardClick() {
-  if (userShips) console.log("User tile# " + $(this).attr("id"));
-  $(this).css("background-color", "green");
-}
+
 // Ai board click handler function
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
@@ -117,9 +117,9 @@ function handleAiBoardClick() {
 
   // checking if Game is Over
   if (!aiShips.join("").length) {
-    userGameTable.unbind("click");
     aiGameTable.unbind("click");
-    console.log("Game Over User Won the Game");
+    $("#game-over").addClass("flipdown")
+    $('#game-over').text('GAME OVER USER WON!');
     return;
   }
 
@@ -269,14 +269,12 @@ function counterAttack() {
   // checking if Game is Over
   console.log("AI SHIIIIIIP", aiShips);
   if (!userShips.join("").length) {
-    userGameTable.unbind("click");
     aiGameTable.unbind("click");
-    console.log("Game Over AI Won the Game");
+    $("#game-over").addClass("flipdown")
+    $('#game-over').text('GAME OVER AI WON!');
     // Reveal Ai Array when Ai wins
     aiShips.flat().forEach((el) => {
       $(`#${"ai"}-${el}`).addClass("grow");
-      // $(`#${"ai"}-${el}`).css('background', 'url("./images/github.png")')
-      // $(`#${"ai"}-${el}`).css("background-color", "#38d7ff");
     });
     return;
   }

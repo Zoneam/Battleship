@@ -1,3 +1,6 @@
+body{
+    background-color: rgb(251, 247, 233);
+}
 #user-game-table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -61,7 +64,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1630px;
+  width: 1500px;
 }
 
 #start-withboards {
@@ -82,10 +85,14 @@
 }
 
 h1 {
-  font-size: 8rem;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+  font-size: 6rem;
   font-weight: bold;
-  margin: 10px 0 0 0;
+  margin: 10px 0 80px 0;
   text-align: center;
+  text-shadow: 0 1px 0 #CCCCCC, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15), 2px 2px 2px rgba(206,89,55,0);
 }
 
 #user-board-wrapper {
@@ -121,6 +128,9 @@ h4 {
 }
 
 .side-bottom {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
   margin-top: 20px;
 }
 
@@ -129,7 +139,13 @@ h4 {
   text-decoration-thickness: 5px;
   margin-top: 2px;
 }
-
+#nav-div{
+    
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+}
 .info-text {
   font-size: 20px;
   font-weight: 800;
@@ -142,11 +158,22 @@ span {
 }
 
 #game-over {
-  position: absolute;
-  font-size: 92px;
-  margin-top: 175px;
-  display: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    position: absolute;
+    font-size: 50px;
+    margin-top: 163px;
+    color: #f5b400;
+    font-weight: 700;
+    text-shadow: 2px 2px 0px #eb452b, 4px 4px 0px #efa032, 6px 6px 0px #46b59b, 8px 8px 0px #017e7f, 10px 10px 0px #052939
 }
+
+.flipdown{
+    -webkit-animation: bounce-top 1.2s both;
+    animation: bounce-top 1.2s both;
+}
+
 
 .slidecontainer {
   display: flex;
@@ -154,23 +181,36 @@ span {
 }
 
 .vert-horiz {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
   font-size: 20px;
   font-weight: 500;
 }
 
+.side-controls-top{
+    height:175px;
+}
+
 #ai-game-table th {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
   font-size: 30px;
 }
 #user-game-table th {
   font-size: 30px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 @media only screen and (max-width: 600px) {
-  body {
-    background-color: rgb(203, 234, 244);
-  }
+
   h1 {
     font-size: 3rem;
+    margin: 3px 0 28px 0;
+
   }
   .info-wrapper {
     max-width: -webkit-fill-available;
@@ -254,4 +294,115 @@ span {
   #user-game-table th {
     font-size: 8px;
   }
+  #game-over{
+    font-size: 22px;
+    margin-top: 63px;
+  }
 }
+
+/* Used https://animista.net/  to generate keyframes */
+@-webkit-keyframes bounce-top {
+    0% {
+      -webkit-transform: translateY(-45px);
+              transform: translateY(-45px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+      opacity: 1;
+    }
+    24% {
+      opacity: 1;
+    }
+    40% {
+      -webkit-transform: translateY(-24px);
+              transform: translateY(-24px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    65% {
+      -webkit-transform: translateY(-12px);
+              transform: translateY(-12px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    82% {
+      -webkit-transform: translateY(-6px);
+              transform: translateY(-6px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    93% {
+      -webkit-transform: translateY(-4px);
+              transform: translateY(-4px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    25%,
+    55%,
+    75%,
+    87% {
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+    100% {
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+      opacity: 1;
+    }
+  }
+  @keyframes bounce-top {
+    0% {
+      -webkit-transform: translateY(-45px);
+              transform: translateY(-45px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+      opacity: 1;
+    }
+    24% {
+      opacity: 1;
+    }
+    40% {
+      -webkit-transform: translateY(-24px);
+              transform: translateY(-24px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    65% {
+      -webkit-transform: translateY(-12px);
+              transform: translateY(-12px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    82% {
+      -webkit-transform: translateY(-6px);
+              transform: translateY(-6px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    93% {
+      -webkit-transform: translateY(-4px);
+              transform: translateY(-4px);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    25%,
+    55%,
+    75%,
+    87% {
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+    100% {
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+      opacity: 1;
+    }
+  }
+  
