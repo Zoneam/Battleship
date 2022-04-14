@@ -37,6 +37,7 @@ To run locally:
 * After destroying ship it will start hitting randomly to find another ship.
 * After destroying opponents ships (total of 6) Game Over message will show up and winner will be announced.
 * You can reset the game by pressing New Game button.
+* Game is optimazed for desktop and mobile.
 
 ![Screenshot Desktop](./images/screenshot-desktop.png)
 
