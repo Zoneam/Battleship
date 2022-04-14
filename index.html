@@ -35,18 +35,21 @@
 
       
           <div id="both-games-wrapper">
+
+
+            
               <div id="user-board-wrapper">
 <div class="info-wrapper">
                 <div class="side-controls">
                   
                   <div class="slidecontainer">
-                      <h4>Vertical or Horizontal</h4>
-                      
+                      <span class="vert-horiz">Vertical</span>
+                      <span class="vert-horiz">Horizontal</span>
                 </div>
 
 
                 <div class="info-div">
-                <input type="range" min="1"  max="100" value="50" class="vertical-horizontal-slider" id="vertical-horizontal-slider"/>
+                <input type="range" min="1"  max="100" value="50" class="vertical-horizontal-slider"  id="vertical-horizontal-slider"/>
                 <button id="restart" class="btn btn-warning">Generate New Board</button>
                 <button id="start" class="btn btn-primary">Start The Battle</button>
               </div>
@@ -67,6 +70,7 @@
               </div>
 
               <div id="ai-board-wrapper">
+                <span id="game-over">GAME OVER</span>
                 <table id="ai-game-table"></table>
 
 
