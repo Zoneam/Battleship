@@ -1,134 +1,257 @@
 #user-game-table {
-    border-collapse:collapse;
-    border-spacing:0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
 }
 
 #user-game-table td {
-    border-color:black;
-    border-style:solid;
-    border-width:1px;
-    font-size:14px;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 14px;
 }
 
-#user-game-table th{
-    border-color:black;
-    border-style:solid;
-    border-width:2px;
-    font-family:Arial, sans-serif;
-    font-size:14px;
-    font-weight:normal;
-    overflow:hidden;
+#user-game-table th {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden;
 }
 
 #ai-game-table {
-    border-collapse:collapse;
-    border-spacing:0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
 }
 
 #ai-game-table td {
-    border-color:black;
-    border-style:solid;
-    border-width:2px;
-    font-size:14px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  font-size: 14px;
 }
 
-#ai-game-table th{
-    border-color:black;
-    border-style:solid;
-    border-width:2px;
-    font-family:Arial, sans-serif;
-    font-size:14px;
-    font-weight:normal;
-    overflow:hidden;
+#ai-game-table th {
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden;
 }
 
-#user-game-table .tg-0lax{
-      width: 50px;
-      height: 50px;
+#user-game-table .tg-0lax {
+  width: 50px;
+  height: 50px;
 }
 
-#ai-game-table .tg-0lax{
-    width: 50px;
-    height: 50px;
+#ai-game-table .tg-0lax {
+  width: 50px;
+  height: 50px;
 }
 
-#both-games-wrapper{
-    margin: 0 auto;
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 1630px;
+#both-games-wrapper {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1630px;
 }
 
-#start-withboards{
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#start-withboards {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 55px;
 }
 
-#start{
-    /* margin-top: 50px;
+#start {
+  /* margin-top: 50px;
     width:400px;
     height: 90px; */
-    margin-top: 5px;
-    width: -webkit-fill-available;
+  margin-top: 15px;
+  width: -webkit-fill-available;
 }
 
-h1{
-    font-size: 8rem;
-    font-weight: bold;
-    margin:10px 0 0 0;
-    text-align: center;
+h1 {
+  font-size: 8rem;
+  font-weight: bold;
+  margin: 10px 0 0 0;
+  text-align: center;
 }
 
-#user-board-wrapper{
-    display: flex;
-   
+#user-board-wrapper {
+  display: flex;
 }
-#ai-board-wrapper{
-    display: flex;
-}
-
-.side-controls{
-    border-radius: 5px;
-    height: 230px;
-    margin-right: 25px;
-    border-style: solid;
-    padding: 20px;
-    padding-top: 2px;
-    display: flex;
-    flex-direction: column;
-    background-color: aliceblue;
-    justify-content: space-between;
+#ai-board-wrapper {
+  display: flex;
 }
 
+.side-controls {
+  border-radius: 5px;
+  height: 230px;
+  margin-right: 25px;
+  border-style: solid;
+  padding: 20px;
+  padding-top: 2px;
+  display: flex;
+  flex-direction: column;
+  background-color: aliceblue;
+  justify-content: space-between;
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
+}
 
 h4 {
-    text-align: center;
+  text-decoration: underline dotted red;
+  text-decoration-thickness: 5px;
+  text-align: center;
 }
 
 #restart {
-    width: -webkit-fill-available;
+  width: -webkit-fill-available;
 }
 
-.side-bottom{
-    margin-top: 20px;
+.side-bottom {
+  margin-top: 20px;
 }
 
-.stats{
-    margin-top: 2px;
+.stats {
+  text-decoration: underline dotted red;
+  text-decoration-thickness: 5px;
+  margin-top: 2px;
 }
 
-.info-text{
-    font-size:20px;
-    font-weight: 800;
+.info-text {
+  font-size: 20px;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+}
+
+span {
+  position: relative;
+}
+
+#game-over {
+  position: absolute;
+  font-size: 92px;
+  margin-top: 175px;
+  display: none;
+}
+
+.slidecontainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vert-horiz {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#ai-game-table th {
+  font-size: 30px;
+}
+#user-game-table th {
+  font-size: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: rgb(203, 234, 244);
+  }
+  h1 {
+    font-size: 3rem;
+  }
+  .info-wrapper {
+    max-width: -webkit-fill-available;
+  }
+
+  #both-games-wrapper {
+    width: 100%;
+    flex-direction: column;
+  }
+  body {
     display: flex;
-    justify-content: space-between;
-}
+    flex-direction: column;
+  }
+  #user-board-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .side-controls {
+    margin: 5px;
+    height: 90px;
+  }
+  .infotextwrap {
+    display: flex;
+  }
+  .info-text {
+    width: -webkit-fill-available;
+    display: block;
+    font-size: 10px;
+    justify-content: center;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+  #start-withboards {
+    margin: 0;
+    margin-top: 5px;
+  }
+  .vert-horiz {
+    font-size: 10px;
+  }
+  #start {
+    margin-top: 0px;
+    width: 49%;
+  }
+  .side-bottom {
+    height: 20px;
+    padding: 0px;
+  }
+  .stats {
+    display: none;
+    width: initial;
+  }
+  #hits,
+  #kills,
+  #ai-kills {
+    margin-left: 7px;
+    font-size: 13px;
+  }
+  #user-game-table {
+    align-self: center;
+    width: 56%;
+  }
+  #user-game-table .tg-0lax {
+    height: 20px;
+    width: 20px;
+  }
+  #ai-game-table .tg-0lax {
+    width: 38px;
+    height: 38px;
+  }
+  #ai-game-table {
+    margin-top: 15px;
+  }
+  #restart {
+    width: 49%;
+  }
 
-span{
-    position: relative;
-   
+  #ai-game-table th {
+    font-size: 18px;
+  }
+  #user-game-table th {
+    font-size: 8px;
+  }
 }
