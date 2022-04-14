@@ -73,7 +73,6 @@ function startGamePlay() {
   aiGameTable.on("click", "th", handleAiBoardClick);
 }
 
-
 // Ai board click handler function
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
@@ -356,7 +355,6 @@ const shipFactory = (shipSize, isHorizontal) => {
     for (let i = 0; i < shipSize; i++) {
       generatedShip.push(randomLocation + i);
     }
-
     return generatedShip;
   }
 };

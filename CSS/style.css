@@ -77,9 +77,6 @@ body{
 }
 
 #start {
-  /* margin-top: 50px;
-    width:400px;
-    height: 90px; */
   margin-top: 15px;
   width: -webkit-fill-available;
 }
@@ -214,11 +211,13 @@ span {
   }
   .info-wrapper {
     max-width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   #both-games-wrapper {
     width: 100%;
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   body {
     display: flex;
