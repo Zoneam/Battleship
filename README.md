@@ -42,7 +42,7 @@ To run locally:
 ![Screenshot Desktop](./images/screenshot-desktop.png)
 
 <p align="center">
-  <img width="230"  src="./images/screenshot-mobile.png">
+  <img width="230" src="./images/screenshot-mobile.png">
 </p>
 
 ## License:

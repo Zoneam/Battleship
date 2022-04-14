@@ -1,4 +1,4 @@
-// 
+//********************************************* Variable Declarations *************************************************** */
 const userGameTable = $("#user-game-table");
 const aiGameTable = $("#ai-game-table");
 const restart = $("#restart").on("click", gameStartRestart);
@@ -27,11 +27,7 @@ let attackedPositions = [];
 let damage = false;
 let damagedShip = [];
 
-// Start button handler function
-function handleStartButton() {
-  startGamePlay();
-}
-// Game Init / restart
+//********************************************* Setting/Resetting Game Parameters to Initial State *************************************************** */
 function gameStartRestart() {
   foundShip = [];
   killedShipsIndexes = [];
@@ -63,21 +59,24 @@ function gameStartRestart() {
   shipDealership("ai");
   horizontalOrVertical = $(".vertical-horizontal-slider").val() / 100;
   shipDealership("user");
-  startButton.on("click", handleStartButton);
+  startButton.on("click", startGamePlay);
 }
 
-// Start Game Play
+//********************************************* Attaching Click Handler *************************************************** */
 function startGamePlay() {
   startButton.unbind("click");
   startButton.prop("disabled", true);
   aiGameTable.on("click", "th", handleAiBoardClick);
 }
 
-// User Attacks Ai Board
+//********************************************* USER ATTACK *************************************************** */
+/**
+ * @return {Number} attack position
+ */
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
   kills = 0;
-
+// Marking users attack position
   for (let i = 0; i < aiShips.length; i++) {
     if (aiShips[i].includes(clickedTile)) {
       $(this).text("X");
@@ -95,7 +94,7 @@ function handleAiBoardClick() {
     }
   }
 
-  // checking if the ship is dead
+  // Checking if the ship is dead and changing color for the whole ship
   for (let i = 0; i < aiShips.length; i++) {
     if (!aiShips[i].length) {
       damagedAiShips[i].forEach((el) => {
@@ -103,7 +102,8 @@ function handleAiBoardClick() {
       });
     }
   }
-  // Counting Kills
+
+  // Counting and Updating Kills statistics
   aiShips.forEach((el) => {
     if (!el.length) {
       kills++;
@@ -111,23 +111,25 @@ function handleAiBoardClick() {
   });
   $("#kills").text(kills);
 
-  // checking if Game is Over
+  // Checking if Game is Over
   if (!aiShips.join("").length) {
     aiGameTable.unbind("click");
     $("#game-over").addClass("flipdown")
     $('#game-over').text('GAME OVER USER WON!');
     return;
   }
-
+  // AI turn to attack
   counterAttack();
 }
-// ---------COUNTER ATTACK---------
-// AI Attacks User
 
+//********************************************* COUNTER ATTACK *************************************************** */
+/**
+ * @return {Number} attack position
+ */
 function counterAttack() {
   let valid = false;
   let randomPos;
-
+  // If we dont have attack positions or we dont have damaged ship
   if (!attackArray.length || damage) {
     if (damage) {
       if (shot % 10 === 0 && shot !== 0 && shot !== 90) {
@@ -167,6 +169,8 @@ function counterAttack() {
       }
     }
   }
+  // If we have attack array and we have damaged ship
+  // Filtering unnecessary positions
   if (attackArray.length && damage) {
     betterAttackArray = [];
     if (damagedShip.length >= 2) {
@@ -184,8 +188,7 @@ function counterAttack() {
       }
     }
   }
-
-  // if no available shooting tiles generate random
+  // If no available shooting tiles generate random
   valid = false;
   if (!attackArray.length) {
     while (!valid) {
@@ -197,11 +200,9 @@ function counterAttack() {
       }
     }
   }
-
   shot = attackArray[attackArray.length - 1];
   attackedPositions = attackedPositions.concat(attackArray.pop());
-
-  // coloring tiles
+  // Coloring tiles
   if (occupiedPositions.includes(shot)) {
     $(`#user-${Number(shot)}`).text("X");
     $(`#user-${Number(shot)}`).addClass("hit");
@@ -215,8 +216,7 @@ function counterAttack() {
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = false;
   }
-
-  // check for kill
+  // Check for kill
   userShips.forEach((el, i) => {
     if (el.every((pos) => attackedPositions.includes(pos))) {
       deadShip = userShips[i];
@@ -229,7 +229,6 @@ function counterAttack() {
       $(`#user-${el}`).prop("disabled", true);
     });
   }
-
   // Counting Kills
   $("#ai-kills").text(6 - userShips.length);
   $("#hits").text(attackedPositions.length);
@@ -245,8 +244,11 @@ function counterAttack() {
     return;
   }
 }
-//************************************************************************************************ */
-
+//********************************************* Generating Playing Boards *************************************************** */
+/**
+ * @param {string} player
+ * @return {table} gameBoard
+ */
 function drawGameBoard(player) {
   let gameBoard = "";
   let gameTable = $(`#${player}-game-table`);
@@ -262,20 +264,20 @@ function drawGameBoard(player) {
   }
   gameTable.html(gameBoard);
 }
+//********************************************* Generating Battleships *************************************************** */
 /**
  * @param {string} player
  * @return {array[array[]]} ships
  */
-// generating battleships
 function shipDealership(player) {
   let arrayOfShips;
   let randomLocation = null;
-  occupiedPositions = [];
   let isHorizontal;
   let containsTiles;
   let firstPosition;
   let touchingOthers;
   let suroundTouchArray = [];
+  occupiedPositions = [];
   for (let i = 0; i < shipSizes.length; i++) {
     touchingOthers = true;
     isHorizontal = Math.random() <= horizontalOrVertical;
@@ -303,7 +305,6 @@ function shipDealership(player) {
         randomLocation.forEach((el) => {
           suroundTouchArray.push(el + 1, el - 1, el + 10, el - 10);
         });
-
         touchingOthers = occupiedPositions.some((el) => {
           return suroundTouchArray.includes(el);
         });
@@ -316,7 +317,12 @@ function shipDealership(player) {
   colorizeShips(occupiedPositions, player);
 }
 
-// To Generate random ships
+//********************************************* Generating Individual Battleships *************************************************** */
+/**
+ * @param {String} shipSize
+ * @param {Boolean} isHorizontal
+ * @return {Array} generatedShip
+ */
 const shipFactory = (shipSize, isHorizontal) => {
   let generatedShip = [];
   let horizontalShipArray = [];
@@ -358,7 +364,12 @@ const shipFactory = (shipSize, isHorizontal) => {
     return generatedShip;
   }
 };
-// Colorize oponent ships
+
+//********************************************* Ship Painting facility *************************************************** */
+/**
+ * @param {Array} shipSize
+ * @param {Streeng} player
+ */
 const colorizeShips = (occupiedPositions, player) => {
   occupiedPositions.forEach((ship, i) => {
     $(`#${player}-${occupiedPositions[i]}`).css(
@@ -368,5 +379,5 @@ const colorizeShips = (occupiedPositions, player) => {
   });
 };
 
-// Game Init
+//********************************************* Game Initialization *************************************************** */
 gameStartRestart();
