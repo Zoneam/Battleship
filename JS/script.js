@@ -4,6 +4,11 @@ const aiGameTable = $("#ai-game-table");
 const restart = $("#restart").on("click", gameStartRestart);
 const startButton = $("#start");
 const shipSizes = [1, 2, 2, 3, 4, 5];
+let deadAiShips = [];
+let deadUserShips = [];
+let attackedPositions = [];
+let damage = false;
+let damagedShip = [];
 let userShips,
   aiShips,
   damagedAiShips,
@@ -21,11 +26,6 @@ let userShips,
   betterAttackArray,
   deadShip,
   occupiedPositions;
-let deadAiShips = [];
-let deadUserShips = [];
-let attackedPositions = [];
-let damage = false;
-let damagedShip = [];
 
 //********************************************* Setting/Resetting Game Parameters to Initial State *************************************************** */
 function gameStartRestart() {
