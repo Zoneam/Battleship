@@ -78,7 +78,6 @@ function startGamePlay() {
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
   kills = 0;
-  console.log("Clicked ID: ", clickedTile);
 
   for (let i = 0; i < aiShips.length; i++) {
     if (aiShips[i].includes(clickedTile)) {
@@ -101,10 +100,8 @@ function handleAiBoardClick() {
   for (let i = 0; i < aiShips.length; i++) {
     if (!aiShips[i].length) {
       damagedAiShips[i].forEach((el) => {
-        console.log("coloring");
         $(`#ai-${el}`).css("background-color", "red");
       });
-      console.log(damagedAiShips[i], " is dead");
     }
   }
   // Counting Kills
@@ -123,16 +120,12 @@ function handleAiBoardClick() {
     return;
   }
 
-  console.log("User SHips: ", userShips);
-  console.log("Ai SHips: ", aiShips);
-  console.log("Damaged Ai SHips: ", damagedAiShips);
-  console.log("Ai tile# " + $(this).attr("id"));
   counterAttack();
 }
-// AI Attacs user
+// ---------COUNTER ATTACK---------
+// AI Attacks User
 
 function counterAttack() {
-  console.log("---------COUNTER ATTACK---------");
   let valid = false;
   let randomPos;
 
@@ -160,16 +153,12 @@ function counterAttack() {
     } else {
       damagedShip = [];
       attackArray = [Math.floor(Math.random() * 100)];
-      console.log("Surounding possible array", attackArray);
     }
     attackArray = attackArray.filter((el) => {
       return !attackedPositions.includes(el);
     });
-    console.log("Attack Array-----------------------", attackArray);
     if (!attackArray.length) {
-      console.log(attackArray, "+++++++++++++++");
       while (!valid) {
-        console.log("inside while");
         randomPos = Math.floor(Math.random() * 100);
         if (!attackedPositions.includes(randomPos)) {
           attackArray = [randomPos];
@@ -181,28 +170,16 @@ function counterAttack() {
   }
   if (attackArray.length && damage) {
     betterAttackArray = [];
-    console.log("damagedShip9999999999999999999999999999", damagedShip);
     if (damagedShip.length >= 2) {
-      console.log("damagedShip***********************", damagedShip);
       if (Math.abs(damagedShip[1] - damagedShip[0]) === 10) {
         //is vertical
-        console.log("vertical", damagedShip);
         attackArray = attackArray.filter((el) => {
-          console.log("el[el.length - 1]", el % 10);
-          console.log(
-            "damagedShip[0][damagedShip.length - 1]",
-            damagedShip[0] % 10
-          );
           return el % 10 === damagedShip[0] % 10;
         });
       }
-      console.log("betterAttackArray", attackArray);
       if (Math.abs(damagedShip[1] - damagedShip[0]) === 1) {
         // check for horizontal
-        console.log("verticHorizontalal", damagedShip);
         attackArray = attackArray.filter((el) => {
-          console.log(el);
-          console.log(damagedShip[0]);
           return Math.abs(el - damagedShip[0]) < 8;
         });
       }
@@ -213,7 +190,6 @@ function counterAttack() {
   valid = false;
   if (!attackArray.length) {
     while (!valid) {
-      console.log("inside while");
       randomPos = Math.floor(Math.random() * 100);
       if (!attackedPositions.includes(randomPos)) {
         attackArray = [randomPos];
@@ -224,7 +200,6 @@ function counterAttack() {
   }
 
   shot = attackArray[attackArray.length - 1];
-  console.log("attackArray", attackArray);
   attackedPositions = attackedPositions.concat(attackArray.pop());
 
   // coloring tiles
@@ -235,7 +210,6 @@ function counterAttack() {
     $(`#user-${Number(shot)}`).prop("disabled", true);
     damage = true;
     damagedShip.push(shot);
-    console.log("hit");
   } else {
     $(`#user-${Number(shot)}`).css("background-color", "#808080");
     $(`#user-${Number(shot)}`).addClass("hit");
@@ -246,12 +220,10 @@ function counterAttack() {
   // check for kill
   userShips.forEach((el, i) => {
     if (el.every((pos) => attackedPositions.includes(pos))) {
-      console.log("Im Here", userShips[i]);
       deadShip = userShips[i];
       userShips.splice(i, 1);
     }
   });
-  console.log("deadShip", deadShip);
   if (deadShip.length) {
     deadShip.forEach((el) => {
       $(`#user-${el}`).css("background-color", "red");
@@ -259,15 +231,10 @@ function counterAttack() {
     });
   }
 
-  console.log(deadShip);
-
-  console.log("Attacked Positions", attackedPositions);
-
   // Counting Kills
   $("#ai-kills").text(6 - userShips.length);
   $("#hits").text(attackedPositions.length);
   // checking if Game is Over
-  console.log("AI SHIIIIIIP", aiShips);
   if (!userShips.join("").length) {
     aiGameTable.unbind("click");
     $("#game-over").addClass("flipdown")
@@ -312,7 +279,6 @@ function shipDealership(player) {
   let suroundTouchArray = [];
   for (let i = 0; i < shipSizes.length; i++) {
     touchingOthers = true;
-    console.log("inside Loop:i=", i);
     isHorizontal = Math.random() <= horizontalOrVertical;
     ship = [];
     // first 1X1 square placement
@@ -321,9 +287,7 @@ function shipDealership(player) {
       firstPosition = shipFactory(shipSizes[0], false); // 100 is board array length
       arrayOfShips.push(firstPosition);
       occupiedPositions.push(firstPosition[0]);
-      console.log("first position:", firstPosition[0]);
     } else {
-      console.log("----------------------------------------------: ");
       randomLocation = shipFactory(shipSizes[i], isHorizontal);
       containsTiles = randomLocation.some((position) => {
         return occupiedPositions.includes(position);
@@ -347,15 +311,10 @@ function shipDealership(player) {
       }
       occupiedPositions = occupiedPositions.concat(randomLocation);
       arrayOfShips.push(randomLocation);
-      console.log("occupiedPositions length", occupiedPositions.length);
-      console.log("containsTiles: ", containsTiles);
     }
   }
   player === "user" ? (userShips = arrayOfShips) : (aiShips = arrayOfShips);
   colorizeShips(occupiedPositions, player);
-  console.log("User Ships Army", userShips);
-  console.log("Ai Ships Army", aiShips);
-  console.log("occupiedPositions: ", occupiedPositions);
 }
 
 // To Generate random ships
