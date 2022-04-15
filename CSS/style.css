@@ -6,6 +6,7 @@ body{
   border-spacing: 0;
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);
+  
 }
 
 #user-game-table td {
@@ -26,6 +27,7 @@ body{
 }
 
 #ai-game-table {
+  cursor: pointer;
   border-collapse: collapse;
   border-spacing: 0;
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.51);

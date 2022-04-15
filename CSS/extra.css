@@ -8,7 +8,6 @@
   background-color:#ffefdb
 }
 
-
 .ripple:hover {
   background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%)
     center/15000%;
@@ -48,7 +47,6 @@
 	animation: gradient 1s ease infinite,flip 2s infinite;
 }
 
-
 .hit {
   animation: shake 0.3s  ;
   backface-visibility: hidden;
@@ -80,7 +78,6 @@
 		background-position: 0% 50%;
 	}
 }
-
 
 @keyframes flip {
   100%, 50% {
