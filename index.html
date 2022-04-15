@@ -14,12 +14,13 @@
   <link rel="stylesheet" href="./CSS/extra.css" />
   <link rel="stylesheet" href="./CSS/style.css" />
 </head>
+
 <body>
   <nav>
     <div id="nav-div">
-    <h1>BattleShip</h1>
-    <span id="game-over"></span>
-  </div>
+      <h1>BattleShip</h1>
+      <span id="game-over"></span>
+    </div>
   </nav>
   <div id="start-withboards">
     <div id="both-games-wrapper">
@@ -32,7 +33,7 @@
             </div>
             <div class="info-div">
               <input type="range" min="1" max="100" value="50" class="vertical-horizontal-slider"
-                id="vertical-horizontal-slider"/>
+                id="vertical-horizontal-slider" />
               <button id="restart" class="btn btn-warning">New Game</button>
               <button id="start" class="btn btn-primary">Start The Battle</button>
             </div>
@@ -54,5 +55,7 @@
     </div>
   </div>
   </div>
+  <audio src="./audio/boom6.wav" id="board-click-audio"></audio>
 </body>
+
 </html>

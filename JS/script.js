@@ -26,7 +26,6 @@ let userShips,
   betterAttackArray,
   deadShip,
   occupiedPositions;
-
 //********************************************* Setting/Resetting Game Parameters to Initial State *************************************************** */
 function gameStartRestart() {
   foundShip = [];
@@ -46,19 +45,19 @@ function gameStartRestart() {
   damagedAiShips = new Array(shipSizes.length).fill(new Array(0));
   damagedUserShips = new Array(shipSizes.length).fill(new Array(0));
   startButton.prop("disabled", false);
-  $('#game-over').text('');
+  $("#game-over").text("");
   $("#game-over").removeClass("flipdown");
-  $("#ai-kills").text('0');
-  $("#hits").text('0');
-  $("#kills").text('0');
+  $("#ai-kills").text("0");
+  $("#hits").text("0");
+  $("#kills").text("0");
   aiGameTable.unbind("click");
   startButton.unbind("click");
   drawGameBoard("user");
   drawGameBoard("ai");
   horizontalOrVertical = 0.5;
-  shipDealership("ai");
+  shipArmyGenerator("ai");
   horizontalOrVertical = $(".vertical-horizontal-slider").val() / 100;
-  shipDealership("user");
+  shipArmyGenerator("user");
   startButton.on("click", startGamePlay);
 }
 
@@ -76,7 +75,7 @@ function startGamePlay() {
 function handleAiBoardClick() {
   let clickedTile = parseInt($(this).attr("id").split("-")[1]);
   kills = 0;
-// Marking users attack position
+  // Marking users attack position
   for (let i = 0; i < aiShips.length; i++) {
     if (aiShips[i].includes(clickedTile)) {
       $(this).text("X");
@@ -114,8 +113,8 @@ function handleAiBoardClick() {
   // Checking if Game is Over
   if (!aiShips.join("").length) {
     aiGameTable.unbind("click");
-    $("#game-over").addClass("flipdown")
-    $('#game-over').text('GAME OVER! YOU WON!');
+    $("#game-over").addClass("flipdown");
+    $("#game-over").text("GAME OVER! YOU WON!");
     return;
   }
   // AI turn to attack
@@ -158,6 +157,7 @@ function counterAttack() {
     attackArray = attackArray.filter((el) => {
       return !attackedPositions.includes(el);
     });
+
     if (!attackArray.length) {
       while (!valid) {
         randomPos = Math.floor(Math.random() * 100);
@@ -235,8 +235,8 @@ function counterAttack() {
   // checking if Game is Over
   if (!userShips.join("").length) {
     aiGameTable.unbind("click");
-    $("#game-over").addClass("flipdown")
-    $('#game-over').text('GAME OVER! YOU LOSE!');
+    $("#game-over").addClass("flipdown");
+    $("#game-over").text("GAME OVER! YOU LOSE!");
     // Reveal Ai Array when Ai wins
     aiShips.flat().forEach((el) => {
       $(`#${"ai"}-${el}`).addClass("grow");
@@ -269,9 +269,9 @@ function drawGameBoard(player) {
  * @param {string} player
  * @return {array[array[]]} ships
  */
-function shipDealership(player) {
-  let arrayOfShips;
+function shipArmyGenerator(player) {
   let randomLocation = null;
+  let arrayOfShips;
   let isHorizontal;
   let containsTiles;
   let firstPosition;
