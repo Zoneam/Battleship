@@ -115,7 +115,7 @@ function handleAiBoardClick() {
   if (!aiShips.join("").length) {
     aiGameTable.unbind("click");
     $("#game-over").addClass("flipdown")
-    $('#game-over').text('GAME OVER USER WON!');
+    $('#game-over').text('GAME OVER! YOU WON!');
     return;
   }
   // AI turn to attack
@@ -236,7 +236,7 @@ function counterAttack() {
   if (!userShips.join("").length) {
     aiGameTable.unbind("click");
     $("#game-over").addClass("flipdown")
-    $('#game-over').text('GAME OVER AI WON!');
+    $('#game-over').text('GAME OVER! YOU LOSE!');
     // Reveal Ai Array when Ai wins
     aiShips.flat().forEach((el) => {
       $(`#${"ai"}-${el}`).addClass("grow");
