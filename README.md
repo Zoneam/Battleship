@@ -1,5 +1,6 @@
-# BattleShips
-
+# BattleShip  
+## [Play Here](https://battle-ships2.netlify.app)
+---
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
@@ -25,8 +26,6 @@ To run locally:
 - Just open index.html and enjoy the game.
 
 ## Usage:
-
-[Click here for deployed app](https://battle-ships2.netlify.app)
 
 * On the page you can generate your battleships randomly and choose the orientation.
 * Click Start The Battle button and game will begin.
