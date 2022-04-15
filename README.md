@@ -8,7 +8,7 @@ Battleship (also known as Battleships or Sea Battle) is a strategy type guessing
 
 ## Technologies
 
-This application uses [JavaScript](https://developer.mozilla.org/), [JQuery](https://api.jquery.com/) and [Bootstrap](https://getbootstrap.com/).
+This application uses [JavaScript](https://developer.mozilla.org/), [JQuery](https://api.jquery.com/), [Bootstrap](https://getbootstrap.com/) and [Animista](https://animista.net/).
 
 ## Table of Contents:
 
