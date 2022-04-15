@@ -1,5 +1,5 @@
-# BattleShip  
-## [Play Here](https://battle-ships2.netlify.app)
+# <p align="center"> BattleShip  </p>
+## <p align="center" style="font-weight:700;"> [Play The Game](https://battle-ships2.netlify.app) </p>
 ---
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
