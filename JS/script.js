@@ -52,12 +52,12 @@ function gameStartRestart() {
   $("#kills").text("0");
   aiGameTable.unbind("click");
   startButton.unbind("click");
-  drawGameBoard("user");
-  drawGameBoard("ai");
+  drawGameBoard("user"); // drawing game board for User
+  drawGameBoard("ai"); // drawing game board for AI
   horizontalOrVertical = 0.5;
-  shipArmyGenerator("ai");
+  shipArmyGenerator("ai");  // Generating Battleship Army for AI
   horizontalOrVertical = $(".vertical-horizontal-slider").val() / 100;
-  shipArmyGenerator("user");
+  shipArmyGenerator("user");// Generating Battleship Army for User
   startButton.on("click", startGamePlay);
 }
 
@@ -128,7 +128,7 @@ function handleAiBoardClick() {
 function counterAttack() {
   let valid = false;
   let randomPos;
-  // If we dont have attack positions or we dont have damaged ship
+  // If we dont have attack positions but have damaged ship
   if (!attackArray.length || damage) {
     if (damage) {
       if (shot % 10 === 0 && shot !== 0 && shot !== 90) {
@@ -293,7 +293,7 @@ function shipArmyGenerator(player) {
       containsTiles = randomLocation.some((position) => {
         return occupiedPositions.includes(position);
       });
-      //function to find if can place not overlaping
+      // Function to find if can place not overlaping
       while (touchingOthers || containsTiles) {
         suroundTouchArray = [];
         randomLocation = shipFactory(shipSizes[i], isHorizontal);

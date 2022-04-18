@@ -208,7 +208,7 @@ span {
 
   h1 {
     font-size: 3rem;
-    margin: 3px 0 28px 0;
+    margin: 3px 0 0 0;
 
   }
   .info-wrapper {
@@ -247,7 +247,7 @@ span {
   }
   #start-withboards {
     margin: 0;
-    margin-top: 5px;
+ 
   }
   .vert-horiz {
     font-size: 10px;
@@ -282,7 +282,7 @@ span {
     height: 38px;
   }
   #ai-game-table {
-    margin-top: 15px;
+    margin-top: 6px;
   }
   #restart {
     width: 49%;
@@ -295,8 +295,9 @@ span {
     font-size: 8px;
   }
   #game-over{
+    z-index: 1;
     font-size: 22px;
-    margin-top: 63px;
+    margin-top: 258px;
     text-shadow: 1px 1px 0px #eb452b, 2px 2px 0px #efa032, 3px 3px 0px #46b59b, 4px 4px 0px #017e7f, 5px 5px 0px #052939;
   }
 }
