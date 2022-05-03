@@ -55,9 +55,9 @@ function gameStartRestart() {
   drawGameBoard("user"); // drawing game board for User
   drawGameBoard("ai"); // drawing game board for AI
   horizontalOrVertical = 0.5;
-  shipArmyGenerator("ai");  // Generating Battleship Army for AI
+  shipArmyGenerator("ai"); // Generating Battleship Army for AI
   horizontalOrVertical = $(".vertical-horizontal-slider").val() / 100;
-  shipArmyGenerator("user");// Generating Battleship Army for User
+  shipArmyGenerator("user"); // Generating Battleship Army for User
   startButton.on("click", startGamePlay);
 }
 
@@ -220,6 +220,7 @@ function counterAttack() {
   userShips.forEach((el, i) => {
     if (el.every((pos) => attackedPositions.includes(pos))) {
       deadShip = userShips[i];
+      attackArray = [];
       userShips.splice(i, 1);
     }
   });
