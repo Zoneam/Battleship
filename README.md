@@ -1,6 +1,5 @@
 # <p align="center" style="font-weight:700;"> [Play Battleship Game](https://battle-ships2.netlify.app) </p>
 ---
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
@@ -62,7 +61,7 @@ To run locally:
 
 ## License:
 
-Licensed under the [MIT](https://opensource.org/licenses/MIT) license.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Contributing:
 
