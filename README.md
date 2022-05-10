@@ -24,6 +24,23 @@ This application uses [JavaScript](https://developer.mozilla.org/), [JQuery](htt
 To run locally:
 
 - Just open index.html and enjoy the game.
+---
+
+## User stories:
+
+- As a user I want to open the page and be presented with 2 game boards.
+- As a user I want to generate random game boards with button clicks.
+- As a user I want to be able to choose my ships to be more horizontal or vertical.
+- As a user I want to click start the button and start the game.
+- As a user I want to click on the opponent's board and make the shot.
+- As a user I want to see the shot positions with different color cells.
+- As a user I want to see the opponent's damaged ship in yellow color.
+- As a user I want to see opponents destroyed ship in red color.
+- As a user I want to view statistics about the game (Ships killed, shot count).
+- As a user I want to click on the new game button at any given time to restart the game.
+- As a user I want to see winner when all opponents ships are destroyed.
+- As a user I want to see opponents (AI) hidden ship positions when I lose the game.
+---
 
 ## Usage:
 
