@@ -1,3 +1,4 @@
+const { log } = console;
 //********************************************* Variable Declarations *************************************************** */
 const userGameTable = $("#user-game-table");
 const aiGameTable = $("#ai-game-table");
@@ -9,6 +10,7 @@ let deadUserShips = [];
 let attackedPositions = [];
 let damage = false;
 let damagedShip = [];
+let surroundTouchArray = [];
 let userShips,
   aiShips,
   damagedAiShips,
@@ -29,6 +31,7 @@ let userShips,
 //********************************************* Setting/Resetting Game Parameters to Initial State *************************************************** */
 function gameStartRestart() {
   foundShip = [];
+  surroundTouchArray = [];
   killedShipsIndexes = [];
   attackedPositions = [];
   deadAiShips = [];
@@ -121,6 +124,23 @@ function handleAiBoardClick() {
   counterAttack();
 }
 
+//********************************************* markSurroundingTiles *************************************************** */
+function markSurroundingTiles(deadShip) {
+  deadShip.forEach(position => {
+    let top = position - 10;
+    let bottom = position + 10;
+    let left = position % 10 === 0 ? null : position - 1;
+    let right = position % 10 === 9 ? null : position + 1;
+
+    [top, bottom, left, right].forEach((direction) => {
+      if (direction !== null && !surroundTouchArray.includes(direction)) {
+        surroundTouchArray.push(direction);
+      }
+    });
+  });
+  console.log('surroundTouchArray:',surroundTouchArray)
+}
+
 //********************************************* COUNTER ATTACK *************************************************** */
 /**
  * @return {Number} attack position
@@ -129,7 +149,8 @@ function counterAttack() {
   let valid = false;
   let randomPos;
   // If we dont have attack positions but have damaged ship
-  if (!attackArray.length || damage) {
+  if (attackArray.length === 0 || damage) {
+    log('attackArray:', attackArray, damage)
     if (damage) {
       if (shot % 10 === 0 && shot !== 0 && shot !== 90) {
         attackArray.push(shot + 1, shot + 10, shot - 10);
@@ -155,13 +176,14 @@ function counterAttack() {
       attackArray = [Math.floor(Math.random() * 100)];
     }
     attackArray = attackArray.filter((el) => {
-      return !attackedPositions.includes(el);
+      return !attackedPositions.includes(el) && !surroundTouchArray.includes(el);
     });
 
     if (!attackArray.length) {
       while (!valid) {
         randomPos = Math.floor(Math.random() * 100);
-        if (!attackedPositions.includes(randomPos)) {
+        if (!surroundTouchArray.includes(randomPos) && !attackedPositions.includes(randomPos)) {
+          log('randomPos:', randomPos)
           attackArray = [randomPos];
           valid = true;
           damagedShip = [];
@@ -172,6 +194,7 @@ function counterAttack() {
   // If we have attack array and we have damaged ship
   // Filtering unnecessary positions
   if (attackArray.length && damage) {
+    log('damagedShip:', damagedShip)
     betterAttackArray = [];
     if (damagedShip.length >= 2) {
       if (Math.abs(damagedShip[1] - damagedShip[0]) === 10) {
@@ -193,7 +216,8 @@ function counterAttack() {
   if (!attackArray.length) {
     while (!valid) {
       randomPos = Math.floor(Math.random() * 100);
-      if (!attackedPositions.includes(randomPos)) {
+      if (!surroundTouchArray.includes(randomPos)  && !attackedPositions.includes(randomPos)) {
+        log('randomPos:', randomPos)
         attackArray = [randomPos];
         valid = true;
         damagedShip = [];
@@ -220,7 +244,10 @@ function counterAttack() {
   userShips.forEach((el, i) => {
     if (el.every((pos) => attackedPositions.includes(pos))) {
       deadShip = userShips[i];
+      markSurroundingTiles(deadShip);
+      log('deadShip:', deadShip)
       attackArray = [];
+      damage=false;
       userShips.splice(i, 1);
     }
   });
