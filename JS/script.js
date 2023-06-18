@@ -138,7 +138,6 @@ function markSurroundingTiles(deadShip) {
       }
     });
   });
-  console.log('surroundTouchArray:',surroundTouchArray)
 }
 
 //********************************************* COUNTER ATTACK *************************************************** */
@@ -150,7 +149,6 @@ function counterAttack() {
   let randomPos;
   // If we dont have attack positions but have damaged ship
   if (attackArray.length === 0 || damage) {
-    log('attackArray:', attackArray, damage)
     if (damage) {
       if (shot % 10 === 0 && shot !== 0 && shot !== 90) {
         attackArray.push(shot + 1, shot + 10, shot - 10);
@@ -183,7 +181,6 @@ function counterAttack() {
       while (!valid) {
         randomPos = Math.floor(Math.random() * 100);
         if (!surroundTouchArray.includes(randomPos) && !attackedPositions.includes(randomPos)) {
-          log('randomPos:', randomPos)
           attackArray = [randomPos];
           valid = true;
           damagedShip = [];
@@ -194,7 +191,6 @@ function counterAttack() {
   // If we have attack array and we have damaged ship
   // Filtering unnecessary positions
   if (attackArray.length && damage) {
-    log('damagedShip:', damagedShip)
     betterAttackArray = [];
     if (damagedShip.length >= 2) {
       if (Math.abs(damagedShip[1] - damagedShip[0]) === 10) {
@@ -217,7 +213,6 @@ function counterAttack() {
     while (!valid) {
       randomPos = Math.floor(Math.random() * 100);
       if (!surroundTouchArray.includes(randomPos)  && !attackedPositions.includes(randomPos)) {
-        log('randomPos:', randomPos)
         attackArray = [randomPos];
         valid = true;
         damagedShip = [];
@@ -245,7 +240,6 @@ function counterAttack() {
     if (el.every((pos) => attackedPositions.includes(pos))) {
       deadShip = userShips[i];
       markSurroundingTiles(deadShip);
-      log('deadShip:', deadShip)
       attackArray = [];
       damage=false;
       userShips.splice(i, 1);
