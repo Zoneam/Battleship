@@ -76,7 +76,7 @@ function startGamePlay() {
  * @return {Number} attack position
  */
 function handleAiBoardClick() {
-  let clickedTile = parseInt($(this).attr("id").split("-")[1]);
+  const clickedTile = parseInt($(this).attr('id').split('-')[1]);
   kills = 0;
   // Marking users attack position
   for (let i = 0; i < aiShips.length; i++) {
@@ -97,27 +97,20 @@ function handleAiBoardClick() {
   }
 
   // Checking if the ship is dead and changing color for the whole ship
-  for (let i = 0; i < aiShips.length; i++) {
-    if (!aiShips[i].length) {
-      damagedAiShips[i].forEach((el) => {
-        $(`#ai-${el}`).css("background-color", "red");
-      });
-    }
-  }
-
-  // Counting and Updating Kills statistics
-  aiShips.forEach((el) => {
-    if (!el.length) {
-      kills++;
+  damagedAiShips.forEach((damagedShip, index) => {
+    if (aiShips[index].length === 0) {
+      damagedShip.forEach(el => $(`#ai-${el}`).css('background-color', 'red'));
     }
   });
-  $("#kills").text(kills);
+
+  // Counting and Updating Kills statistics
+  kills = aiShips.reduce((count, ship) => count + (ship.length === 0 ? 1 : 0), 0);
+  $('#kills').text(kills);
 
   // Checking if Game is Over
-  if (!aiShips.join("").length) {
-    aiGameTable.unbind("click");
-    $("#game-over").addClass("flipdown");
-    $("#game-over").text("GAME OVER! YOU WON!");
+  if (!aiShips.flat().length) {
+    aiGameTable.off('click');
+    $('#game-over').addClass('flipdown').text('GAME OVER! YOU WON!');
     return;
   }
   // AI turn to attack
@@ -291,53 +284,46 @@ function drawGameBoard(player) {
  * @param {string} player
  * @return {array[array[]]} ships
  */
-function shipArmyGenerator(player) {
-  let randomLocation = null;
-  let arrayOfShips;
-  let isHorizontal;
-  let containsTiles;
-  let firstPosition;
-  let touchingOthers;
-  let suroundTouchArray = [];
+const shipArmyGenerator = (player) => {
   occupiedPositions = [];
-  for (let i = 0; i < shipSizes.length; i++) {
-    touchingOthers = true;
-    isHorizontal = Math.random() <= horizontalOrVertical;
-    ship = [];
-    // first 1X1 square placement
-    if (i === 0) {
-      arrayOfShips = [];
-      firstPosition = shipFactory(shipSizes[0], false); // 100 is board array length
-      arrayOfShips.push(firstPosition);
-      occupiedPositions.push(firstPosition[0]);
+  let arrayOfShips = shipSizes.map((shipSize, index) => {
+    const isHorizontal = Math.random() <= horizontalOrVertical;
+    let ship;
+    
+    // First 1x1 square placement
+    if (index === 0) {
+      ship = shipFactory(shipSize, false); // 100 is board array length
+      occupiedPositions.push(ship[0]);
     } else {
-      randomLocation = shipFactory(shipSizes[i], isHorizontal);
-      containsTiles = randomLocation.some((position) => {
-        return occupiedPositions.includes(position);
-      });
-      // Function to find if can place not overlaping
-      while (touchingOthers || containsTiles) {
-        suroundTouchArray = [];
-        randomLocation = shipFactory(shipSizes[i], isHorizontal);
+      let containsTiles, touchingOthers;
+      let randomLocation, suroundTouchArray;
 
-        containsTiles = occupiedPositions.some((position) => {
-          return randomLocation.includes(position);
-        });
-        // Pushing all possible touching positins into array
-        randomLocation.forEach((el) => {
-          suroundTouchArray.push(el + 1, el - 1, el + 10, el - 10);
-        });
-        touchingOthers = occupiedPositions.some((el) => {
-          return suroundTouchArray.includes(el);
-        });
-      }
-      occupiedPositions = occupiedPositions.concat(randomLocation);
-      arrayOfShips.push(randomLocation);
+      // Function to find if can place not overlapping
+      do {
+        randomLocation = shipFactory(shipSize, isHorizontal);
+        containsTiles = randomLocation.some(position => occupiedPositions.includes(position));
+
+        // Pushing all possible touching positions into array
+        suroundTouchArray = randomLocation.flatMap(el => [el + 1, el - 1, el + 10, el - 10]);
+        touchingOthers = occupiedPositions.some(el => suroundTouchArray.includes(el));
+      } while (touchingOthers || containsTiles);
+      
+      occupiedPositions = [...occupiedPositions, ...randomLocation];
+      ship = randomLocation;
     }
+    
+    return ship;
+  });
+
+  if (player === "user") {
+    userShips = arrayOfShips;
+  } else {
+    aiShips = arrayOfShips;
   }
-  player === "user" ? (userShips = arrayOfShips) : (aiShips = arrayOfShips);
+  
   colorizeShips(occupiedPositions, player);
-}
+};
+
 
 //********************************************* Generating Individual Battleships *************************************************** */
 /**
@@ -346,46 +332,27 @@ function shipArmyGenerator(player) {
  * @return {Array} generatedShip
  */
 const shipFactory = (shipSize, isHorizontal) => {
-  let generatedShip = [];
-  let horizontalShipArray = [];
-  let verticalShipArray = [];
   let persistNumber = 0;
   let randomLocation = 0;
-  // if generating vertical ships
-  if (!isHorizontal) {
-    for (let i = 0; i < 100 - (shipSize - 1) * 10; i++) {
-      // adding all numbers except ship size that will hit bottom wall
-      verticalShipArray.push(persistNumber);
-      persistNumber++;
-    }
-    randomLocation =
-      verticalShipArray[
-        Math.floor(Math.random() * (100 - (shipSize - 1) * 10))
-      ];
-    for (let i = 0; i < shipSize; i++) {
-      generatedShip.push(randomLocation + i * 10);
-    }
-    return generatedShip;
+  
+  if (!isHorizontal) { // generating vertical ships
+    const verticalShipArray = Array.from({length: 100 - (shipSize - 1) * 10}, () => persistNumber++);
+    randomLocation = verticalShipArray[Math.floor(Math.random() * verticalShipArray.length)];
+    
+    return Array.from({length: shipSize}, (_, i) => randomLocation + i * 10);
   }
-  // if generating horizontal ships
-  if (isHorizontal) {
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        // adding all numbers except ship size that will hit bottom wall
-        if (j <= 10 - shipSize) {
-          horizontalShipArray.push(persistNumber);
-        }
-        persistNumber++;
-      }
-    }
-    randomLocation =
-      horizontalShipArray[Math.floor(Math.random() * (110 - shipSize * 10))];
-    for (let i = 0; i < shipSize; i++) {
-      generatedShip.push(randomLocation + i);
-    }
-    return generatedShip;
+
+  if (isHorizontal) { // generating horizontal ships
+    const horizontalShipArray = Array.from({length: 10 * 10})
+      .map(() => persistNumber++)
+      .filter((_, i) => i % 10 <= 10 - shipSize);
+      
+    randomLocation = horizontalShipArray[Math.floor(Math.random() * horizontalShipArray.length)];
+    
+    return Array.from({length: shipSize}, (_, i) => randomLocation + i);
   }
 };
+
 
 //********************************************* Ship Painting facility *************************************************** */
 /**
