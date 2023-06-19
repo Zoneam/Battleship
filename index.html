@@ -25,32 +25,33 @@
   <div id="start-withboards">
     <div id="both-games-wrapper">
       <div id="user-board-wrapper">
-        <div class="info-wrapper">
-          <div class="side-controls side-controls-top">
-            <div class="slidecontainer">
-              <span class="vert-horiz">Vertical</span>
-              <span class="vert-horiz">Horizontal</span>
-            </div>
-            <div class="info-div">
-              <input type="range" min="1" max="100" value="50" class="vertical-horizontal-slider"
-                id="vertical-horizontal-slider" />
-              <button id="restart" class="btn btn-warning">New Game</button>
-              <button id="start" class="btn btn-primary">Start The Battle</button>
-            </div>
-          </div>
-          <div class="side-controls side-bottom">
-            <h4 class="stats">Statistics</h4>
-            <div class="infotextwrap">
-              <p class="info-text">Total Shots: <span id="hits">0</span></p>
-              <p class="info-text">User Kills: <span id="kills">0</span></p>
-              <p class="info-text">Ai Kills:<span id="ai-kills">0</span></p>
-            </div>
-          </div>
-        </div>
+
         <table id="user-game-table"></table>
       </div>
       <div id="ai-board-wrapper">
         <table id="ai-game-table"></table>
+      </div>
+      <div class="info-wrapper">
+        <div class="side-controls side-controls-top">
+          <div class="slidecontainer">
+            <span class="vert-horiz">Vertical</span>
+            <span class="vert-horiz">Horizontal</span>
+          </div>
+          <div class="info-div">
+            <input type="range" min="1" max="100" value="50" class="vertical-horizontal-slider"
+              id="vertical-horizontal-slider" />
+            <button id="restart" class="btn btn-warning">New Game</button>
+            <button id="start" class="btn btn-primary">Start The Battle</button>
+          </div>
+        </div>
+        <div class="side-controls side-bottom">
+          <h4 class="stats">Statistics</h4>
+          <div class="infotextwrap">
+            <p class="info-text">Total Shots: <span id="hits">0</span></p>
+            <p class="info-text">User Kills: <span id="kills">0</span></p>
+            <p class="info-text">Ai Kills:<span id="ai-kills">0</span></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

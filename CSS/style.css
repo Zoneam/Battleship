@@ -219,7 +219,7 @@ span {
 
   #both-games-wrapper {
     width: 100%;
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
   body {
     display: flex;
