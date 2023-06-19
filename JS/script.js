@@ -287,9 +287,7 @@ function drawGameBoard(player) {
 const shipArmyGenerator = (player) => {
   occupiedPositions = [];
   let arrayOfShips = shipSizes.map((shipSize, index) => {
-    const isHorizontal = Math.random() <= horizontalOrVertical;
     let ship;
-    
     // First 1x1 square placement
     if (index === 0) {
       ship = shipFactory(shipSize, false); // 100 is board array length
@@ -297,12 +295,11 @@ const shipArmyGenerator = (player) => {
     } else {
       let containsTiles, touchingOthers;
       let randomLocation, suroundTouchArray;
-
       // Function to find if can place not overlapping
       do {
+        let isHorizontal = Math.random() <= horizontalOrVertical;
         randomLocation = shipFactory(shipSize, isHorizontal);
         containsTiles = randomLocation.some(position => occupiedPositions.includes(position));
-
         // Pushing all possible touching positions into array
         suroundTouchArray = randomLocation.flatMap(el => [el + 1, el - 1, el + 10, el - 10]);
         touchingOthers = occupiedPositions.some(el => suroundTouchArray.includes(el));
@@ -320,7 +317,6 @@ const shipArmyGenerator = (player) => {
   } else {
     aiShips = arrayOfShips;
   }
-  
   colorizeShips(occupiedPositions, player);
 };
 
@@ -341,14 +337,12 @@ const shipFactory = (shipSize, isHorizontal) => {
     
     return Array.from({length: shipSize}, (_, i) => randomLocation + i * 10);
   }
-
   if (isHorizontal) { // generating horizontal ships
     const horizontalShipArray = Array.from({length: 10 * 10})
       .map(() => persistNumber++)
       .filter((_, i) => i % 10 <= 10 - shipSize);
       
     randomLocation = horizontalShipArray[Math.floor(Math.random() * horizontalShipArray.length)];
-    
     return Array.from({length: shipSize}, (_, i) => randomLocation + i);
   }
 };
